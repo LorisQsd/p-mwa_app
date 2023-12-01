@@ -1,5 +1,10 @@
+import Logo from "../ui/logo";
+
 export default function Page() {
   return (
-    <div>Page d&apos;inscription</div>
-  )
+    <>
+      <Logo to="/" />
+      <h1 className="text-center">Page d&apos;inscription</h1>
+    </>
+  );
 }
