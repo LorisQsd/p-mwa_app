@@ -9,10 +9,19 @@ const config: Config = {
   theme: {
     extend: {
       backgroundImage: {
-        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'gradient-conic':
-          'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+        'main-img': "url('/bg-img.png')"
       },
+      colors: {
+        primary: {
+          400: '#39EC75'
+        },
+        secondary: {
+          400: "#17181E"
+        }
+      },
+      boxShadow: {
+        'custom': '0 4px 10px 0px rgba(57, 236, 117, 0.25);',
+      }
     },
   },
   plugins: [],
