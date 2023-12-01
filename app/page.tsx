@@ -10,12 +10,14 @@ export default function Home() {
       <header className="p-5 flex justify-end">
         <Logo to="/"/>
         <nav className="md:flex md:gap-4">
-          <button
-            type="button"
-            className="hidden md:block p-2 md:px-4 rounded-lg text-sm md:text-base duration-300 hover:bg-primary-400 hover:text-black hover:shadow-custom hover:scale-105"
-          >
-            S&apos;inscrire
-          </button>
+          <Link href={"/signin-signup"}>
+            <button
+              type="button"
+              className="hidden md:block p-2 md:px-4 rounded-lg text-sm md:text-base duration-300 hover:bg-primary-400 hover:text-black hover:shadow-custom hover:scale-105"
+            >
+              S&apos;inscrire
+            </button>
+          </Link>
           <Link href={"/signin-signup"}>
             <button
               type="button"
@@ -36,7 +38,7 @@ export default function Home() {
             src="/Dashboard.png"
             width={1080}
             height={460}
-            className="hidden md:block rounded-lg w-3/4 mx-auto h-[250px] lg:h-[300px] xl:h-[460px] object-cover lg:w-full"
+            className="hidden md:block rounded-lg w-3/4 mx-auto h-[250px] lg:h-[300px] xl:h-[400px] object-cover lg:w-full"
             alt="Portrait"
           />
         </div>
