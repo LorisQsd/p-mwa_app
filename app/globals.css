@@ -10,7 +10,7 @@ body {
   color: rgb(var(--foreground-rgb));
 }
 
-p, li {
+p, li, label, ::placeholder, input {
   font-family: var(--font-red-hat-display);
   @apply tracking-wide
 }
