@@ -8,9 +8,12 @@ export default function Home() {
   return (
     <>
       <header className="p-5 flex justify-end">
-        <Logo to="/"/>
+        <Logo to="/" />
         <nav className="md:flex md:gap-4">
-          <Link href={"/signin-signup"}>
+          {/* INSCRIPTION LINK BUTTON */}
+          <Link
+            href={{ pathname: "signin-signup", query: {q: "signup"} }}
+          >
             <button
               type="button"
               className="hidden md:block p-2 md:px-4 rounded-lg text-sm md:text-base duration-300 hover:bg-primary-400 hover:text-black hover:shadow-custom hover:scale-105"
@@ -18,7 +21,11 @@ export default function Home() {
               S&apos;inscrire
             </button>
           </Link>
-          <Link href={"/signin-signup"}>
+
+          {/* CONNEXION LINK BUTTON */}
+          <Link
+            href={{ pathname: "signin-signup", query: {q: "signin"} }}
+          >
             <button
               type="button"
               className="text-black bg-primary-400 p-2 md:px-4 rounded-lg text-sm md:text-base duration-300 hover:shadow-custom hover:scale-105"
@@ -69,7 +76,9 @@ export default function Home() {
               />
             </div>
 
-            <h2 className="text-sm md:text-base xl:text-xl">999k utilisateurs</h2>
+            <h2 className="text-sm md:text-base xl:text-xl">
+              999k utilisateurs
+            </h2>
           </div>
           <p className="my-6 text-center md:mb-0 lg:text-start xl:text-lg">
             Enregistrez, suivez, relancez vos débiteurs et débarrassez vous
@@ -77,13 +86,18 @@ export default function Home() {
             intuitive.
           </p>
           <div className="flex flex-col gap-4 w-3/4 mx-auto">
+            {/* INSCRIPTION LINK BUTTON */}
             {/* Only visible if screen vw < 640px */}
-            <button
-              type="button"
-              className="text-black bg-primary-400 p-2 rounded-lg text-sm md:hidden"
+            <Link
+              href={{ pathname: "signin-signup", query: {q: "signup"} }}
             >
-              S&apos;inscrire
-            </button>
+              <button
+                type="button"
+                className="text-black bg-primary-400 p-2 rounded-lg text-sm md:hidden"
+              >
+                S&apos;inscrire
+              </button>
+            </Link>
 
             <button
               type="button"
