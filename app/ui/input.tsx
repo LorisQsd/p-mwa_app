@@ -36,7 +36,7 @@ export default function Input({
       <label
         htmlFor={inputId}
         className={clsx(
-            'font-bold block z-0 duration-300 opacity-0 translate-y-full',
+            'font-bold block z-0 duration-300 opacity-0 translate-y-full md:text-lg',
             {
               'opacity-100 -translate-y-0': value?.length,
             },
@@ -49,7 +49,7 @@ export default function Input({
       <div className="relative">
         <input
           id={inputId}
-          className="block w-full rounded-md border border-gray-200 py-[9px] pl-10 text-sm outline-2 outline-primary-400 placeholder:text-gray-500 placeholder:italic"
+          className="block w-full rounded-md border border-gray-200 py-[9px] md:py-[12px] pl-10 text-sm outline-2 outline-primary-400 placeholder:text-gray-500 placeholder:italic md:placeholder:text-base"
           type={type}
           name="email"
           placeholder={label}

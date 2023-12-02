@@ -1,47 +1,45 @@
-'use client';
+"use client";
 
 import { useState } from "react";
 import Logo from "../ui/logo";
 import Footer from "../ui/semantic/footer";
-import Input from "../ui/input";
-import { AtSymbolIcon, KeyIcon } from "@heroicons/react/24/outline";
+import SigninForm from "../ui/signin-form";
+import clsx from "clsx";
 
 export default function Page() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("")
+  // REACT STATE //
+  const [activeForm, setActiveForm] = useState("signin");
 
   return (
     <>
       <Logo to="/" />
-      <main className="grow items-center flex px-2">
-        <div className="rounded-lg bg-white mx-auto text-black py-10 px-4 min-w-[320px]">
-          <h1 className="text-center mb-5 text-xl">Connectez-vous</h1>
+      <main className="grow items-center flex px-2 py-20">
+        <div className="rounded-lg bg-white mx-auto text-black py-10 px-4 min-h-[400px] max-w-[400px] w-full">
+          {/* TITLE */}
+          <h1 className="text-center mb-10 text-xl sm:text-2xl">{activeForm === "signin" ? "Connectez-vous" : "Inscrivez-vous"}</h1>
 
-          <div className="flex gap-5 justify-between">
-            <button type="button">Connexion</button>
-            <button type="button">Inscription</button>
+          <div className="flex gap-5 justify-between rhd font-bold text-xl mx-auto w-full sm:w-3/4 max-w-[250px]">
+            {/* CONNEXION BTN */}
+            <button
+              className={clsx("duration-300", {
+                "text-primary-400 relative scale-105 after:content-[''] after:w-[5px] after:aspect-square after:rounded-full after:bg-primary-400 after:absolute after:-top-2 after:left-1/2 after:-transalte-x-1/2":
+                  activeForm === "signin",
+              })}
+              type="button"
+              onClick={() => setActiveForm("signin")}
+            >
+              Connexion
+            </button>
+            {/* INSCRIPTION BTN */}
+            <button type="button" onClick={() => setActiveForm("signup")} className={clsx("duration-300", {
+                "text-primary-400 relative scale-105 after:content-[''] after:w-[5px] after:aspect-square after:rounded-full after:bg-primary-400 after:absolute after:-top-2 after:left-1/2 after:-transalte-x-1/2":
+                  activeForm === "signup",
+              })}>
+              Inscription
+            </button>
           </div>
 
-          <form className="my-10 flex flex-col gap-5">
-            <Input
-              label="Email de connexion"
-              isRequired
-              type="email"
-              value={email}
-              onChange={setEmail}
-            >
-              <AtSymbolIcon className="absolute text-primary-400 top-1/2 -translate-y-1/2 left-2 w-[20px]" />
-            </Input>
-
-            <Input
-            label="Mot de passe"
-            isRequired
-            type="password"
-            value={password}
-            onChange={setPassword}>
-              <AtSymbolIcon className="absolute text-primary-400 top-1/2 -translate-y-1/2 left-2 w-[20px]" />
-            </Input>
-          </form>
+          {activeForm === "signin" ? <SigninForm /> : <p>Pouet</p>}
         </div>
       </main>
 

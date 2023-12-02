@@ -10,7 +10,42 @@ body {
   color: rgb(var(--foreground-rgb));
 }
 
-p, li, label, ::placeholder, input {
+p, li, label, ::placeholder, input, .rhd {
   font-family: var(--font-red-hat-display);
   @apply tracking-wide
+}
+
+/* Scroll Bar Style */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  @apply bg-slate-300;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 99px;
+  @apply bg-slate-400 shadow-custom;
+}
+
+/* Clear the "X" from Chrome on input type search */
+input[type='search']::-webkit-search-decoration,
+input[type='search']::-webkit-search-cancel-button,
+input[type='search']::-webkit-search-results-button,
+input[type='search']::-webkit-search-results-decoration {
+  display: none;
+}
+
+/* Clear autofill style */
+input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 30px white inset !important;
+}
+
+/* Remove the blue backeground on click - Mobile */
+input,
+textarea,
+button,
+select,
+a {
+    -webkit-tap-highlight-color: transparent;
 }
