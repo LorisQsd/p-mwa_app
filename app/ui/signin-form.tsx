@@ -10,7 +10,7 @@ export default function SigninForm() {
 
   return (
     <>
-      <form className="mt-10 flex flex-col gap-2">
+      <form className="mt-5 flex flex-col gap-2">
         <Input
           label="Email de connexion"
           isRequired

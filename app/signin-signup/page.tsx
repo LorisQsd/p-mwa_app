@@ -4,6 +4,7 @@ import { useState } from "react";
 import Logo from "../ui/logo";
 import Footer from "../ui/semantic/footer";
 import SigninForm from "../ui/signin-form";
+import SignupForm from "../ui/signup-form";
 import clsx from "clsx";
 
 export default function Page() {
@@ -13,8 +14,8 @@ export default function Page() {
   return (
     <>
       <Logo to="/" />
-      <main className="grow items-center flex px-2 py-20">
-        <div className="rounded-lg bg-white mx-auto text-black py-10 px-4 min-h-[400px] max-w-[400px] w-full">
+      <main className="grow flex px-2 pt-20 md:pt-32 py-10">
+        <div className="rounded-lg bg-white mx-auto text-black py-10 md:px-10 px-4 h-fit max-w-[450px] w-full">
           {/* TITLE */}
           <h1 className="text-center mb-10 text-xl sm:text-2xl">{activeForm === "signin" ? "Connectez-vous" : "Inscrivez-vous"}</h1>
 
@@ -39,7 +40,7 @@ export default function Page() {
             </button>
           </div>
 
-          {activeForm === "signin" ? <SigninForm /> : <p>Pouet</p>}
+          {activeForm === "signin" ? <SigninForm /> : <SignupForm />}
         </div>
       </main>
 
