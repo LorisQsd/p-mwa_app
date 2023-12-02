@@ -2,11 +2,21 @@ import { useState } from "react";
 import Input from "./input";
 import Button from "./button";
 import Link from "next/link";
-import { AtSymbolIcon, KeyIcon } from "@heroicons/react/24/outline";
+import {
+  AtSymbolIcon,
+  EyeSlashIcon,
+  EyeIcon,
+} from "@heroicons/react/24/outline";
 
 export default function SigninForm() {
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  // HANDLER //
+  const handlePasswordVisibility = () => {
+    setIsPasswordVisible((prevState) => !prevState);
+  };
 
   return (
     <>
@@ -24,11 +34,21 @@ export default function SigninForm() {
         <Input
           label="Mot de passe"
           isRequired
-          type="password"
+          type={isPasswordVisible ? "text" : "password"}
           value={password}
           onChange={setPassword}
         >
-          <KeyIcon className="absolute text-primary-400 top-1/2 -translate-y-1/2 left-2 w-[20px] md:w-[24px]" />
+          {isPasswordVisible ? (
+            <EyeIcon
+              onClick={handlePasswordVisibility}
+              className="absolute cursor-pointer text-primary-400 top-1/2 -translate-y-1/2 left-2 w-[20px] md:w-[24px]"
+            />
+          ) : (
+            <EyeSlashIcon
+              onClick={handlePasswordVisibility}
+              className="absolute cursor-pointer text-primary-400 top-1/2 -translate-y-1/2 left-2 w-[20px] md:w-[24px]"
+            />
+          )}
         </Input>
 
         <Button content="Se connecter" type="submit" className="mt-10" />
