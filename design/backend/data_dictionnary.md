@@ -1,4 +1,10 @@
-### AVATARS
+## STATUS
+| Data      | Type    | Spécificités        |
+| --------  | ------- | ------------------- |
+| id        | UUID    | DEFAULT PRIMARY KEY |
+| name      | TEXT    | NOT NULL            |
+
+## AVATARS
 | Data     | Type    | Spécificités        |
 | -------- | ------- | ------------------- |
 | id       | UUID    | DEFAULT PRIMARY KEY |
@@ -12,7 +18,7 @@
 | firstname | TEXT    | NOT NULL                              |
 | email     | TEXT    | NOT NULL UNIQUE                       |
 | password  | TEXT    | NOT NULL                              |
-| avatar_id | INT     | NOT NULL REFERENCES "avatars" ("id")  |
+| avatar_id | UUID    | NOT NULL REFERENCES "avatars" ("id")  |
 
 ## DEBTORS
 | Data      | Type    | Spécificités                         |
@@ -23,14 +29,8 @@
 | email     | TEXT    |                                      |
 | phone     | TEXT    |                                      |
 | date      | DATE    | NOT NULL                             |
-| user_id   | INT     | NOT NULL REFERENCES "users" ("id")   |
-| status_id | INT     | NOT NULL REFERENCES "status" ("id")  |
-
-## STATUS
-| Data      | Type    | Spécificités        |
-| --------  | ------- | ------------------- |
-| id        | UUID    | DEFAULT PRIMARY KEY |
-| name      | TEXT    | NOT NULL            |
+| user_id   | UUID    | NOT NULL REFERENCES "users" ("id")   |
+| status_id | UUID    | NOT NULL REFERENCES "status" ("id")  |
 
 ## INVOICES
 | Data      | Type                | Spécificités                         |
@@ -39,7 +39,7 @@
 | name      | TEXT                | NOT NULL                             |
 | amount    | DECIMAL (19, 2)     | NOT NULL                             |
 | date      | DATE                | NOT NULL                             |
-| debtor_id | INT                 | NOT NULL REFERENCES "debtors" ("id") |
+| debtor_id | UUID                | NOT NULL REFERENCES "debtors" ("id") |
 
 ## REFUNDS
 | Data      | Type                | Spécificités                          |
@@ -48,13 +48,13 @@
 | source    | TEXT                | NOT NULL                              |
 | amount    | DECIMAL (19, 2)     | NOT NULL                              |
 | date      | DATE                | NOT NULL                              |
-| debtor_id | INT                 | NOT NULL REFERENCES "debtors" ("id")  |
+| debtor_id | UUID                | NOT NULL REFERENCES "debtors" ("id")  |
 
-## RELAUNCH
+## REMINDERS
 | Data      | Type    | Spécificités                          |
 | --------  | ------- | ------------------------------------- |
 | id        | UUID    | DEFAULT PRIMARY KEY                   |
 | comment   | TEXT    | NOT NULL                              |
 | date      | DATE    | NOT NULL                              |
-| debtor_id | INT     | NOT NULL REFERENCES "debtors" ("id")  |
+| debtor_id | UUID    | NOT NULL REFERENCES "debtors" ("id")  |
 
