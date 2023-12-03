@@ -17,7 +17,8 @@ export default function Page() {
   const { replace } = useRouter();
 
   // REACT STATE //
-  const [activeForm, setActiveForm] = useState(qSearchParams);
+  // We want the query to be "signin" to prevent the fact that the user goes to the signin-up page through the url WITHOUT passing a query params "q"
+  const [activeForm, setActiveForm] = useState(qSearchParams || "signin");
 
   // HANDLER //
   const handleActiveForm = (query: string) => {

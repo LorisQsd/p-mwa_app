@@ -93,7 +93,7 @@ export default function Home() {
             >
               <button
                 type="button"
-                className="text-black bg-primary-400 p-2 rounded-lg text-sm md:hidden"
+                className="text-black bg-primary-400 p-2 rounded-lg text-sm md:hidden w-full"
               >
                 S&apos;inscrire
               </button>
