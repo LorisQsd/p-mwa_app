@@ -1,0 +1,23 @@
+![MCD](MCD.png)
+
+# MOCODO
+
+AVATAR: _url
+POSSEDER, 0N AVATAR, 11 UTILISATEUR
+UTILISATEUR: _nom, prénom, email, mot de passe
+::
+
+CREER, 0N UTILISATEUR, 11 DEBITEUR
+
+STATUS: _nom
+DISPOSER, 11 DEBITEUR, 1N STATUS
+DEBITEUR: _nom, prénom, téléphone, email, date
+DETENIR, 0N DEBITEUR, 11 FACTURE
+FACTURE: _nom, montant, date
+
+RELANCE: _commentaire, date
+AVOIR, 0N DEBITEUR, 11 RELANCE
+:
+BENEFICIER, 0N DEBITEUR, 11 REMBOURSEMENT
+REMBOURSEMENT: _source, montant, date
+
