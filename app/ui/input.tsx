@@ -3,9 +3,9 @@ import clsx from "clsx";
 
 type InputProps = {
   children?: React.ReactNode;
-  label: string;
   isRequired?: boolean;
   className?: string;
+  label: string;
   type: string;
 
   inputRef?: Ref<HTMLInputElement> | null;
@@ -40,7 +40,7 @@ export default function Input({
         className={clsx(
           "font-bold block z-0 duration-300 opacity-0 translate-y-full md:text-lg",
           {
-            "opacity-100 -translate-y-0": value?.length,
+            "opacity-100 translate-y-0": value?.length,
           }
         )}
         // ACCESSIBILITY
