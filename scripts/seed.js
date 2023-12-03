@@ -1,10 +1,30 @@
-// Vercel DB //
-const { db } = reequire("@vercel/postgres");
-
-// DB Placeholders //
-
-// BCRYPT //
+const { db } = require("@vercel/postgres");
+const { status, avatars, users } = require("../app/lib/placeholder-data.js");
 const bcrypt = require("bcrypt");
+
+// === DROP TABLES === //
+async function dropTables(client) {
+  try {
+    await client.sql`
+        DROP TABLE IF EXISTS "status" CASCADE;
+
+        DROP TABLE IF EXISTS "avatars" CASCADE;
+
+        DROP TABLE IF EXISTS "users" CASCADE;
+
+        DROP TABLE IF EXISTS "debtors" CASCADE;
+
+        DROP TABLE IF EXISTS "invoices" CASCADE;
+
+        DROP TABLE IF EXISTS "refunds" CASCADE;
+
+        DROP TABLE IF EXISTS "reminders" CASCADE;
+        `;
+  } catch (error) {
+    console.error("Error seeding status:", error);
+    throw error;
+  }
+}
 
 // === STATUS === //
 async function seedStatus(client) {
@@ -22,19 +42,20 @@ async function seedStatus(client) {
 
     console.log(`Created "status" table`);
 
-    // Seed initial data
-    const seedData = [{ name: "En cours" }, { name: "Archivé" }];
+    // Insert data into the "status" table
+    const inserteStatus = await Promise.all(
+      status.map(
+        (stat) => client.sql`
+          INSERT INTO status (id, name)
+          VALUES (${stat.id}, ${stat.name})
+          ON CONFLICT (id) DO NOTHING;
+        `
+      )
+    );
 
-    for (const data of seedData) {
-      await client.sql`
-          INSERT INTO status (name) VALUES (${data.name})
-          ON CONFLICT (name) DO NOTHING;
-        `;
-    }
+    console.log(`Seeded ${inserteStatus.length} customers`);
 
-    console.log(`Seeded initial data for "status" table`);
-
-    return { createTable, seedData };
+    return { createTable, status: inserteStatus };
   } catch (error) {
     console.error("Error seeding status:", error);
     throw error;
@@ -55,7 +76,20 @@ async function seedAvatars(client) {
 
     console.log(`Created "avatars" table`);
 
-    return { createTable };
+    // Insert data into the "avatars" table
+    const insertedAvatars = await Promise.all(
+      avatars.map(
+        (avatar) => client.sql`
+                INSERT INTO avatars (id, url)
+                VALUES (${avatar.id}, ${avatar.url})
+                ON CONFLICT (id) DO NOTHING;
+              `
+      )
+    );
+
+    console.log(`Seeded ${insertedAvatars.length} customers`);
+
+    return { createTable, avatars: insertedAvatars };
   } catch (error) {
     console.error("Error seeding avatars:", error);
     throw error;
@@ -68,19 +102,33 @@ async function seedUsers(client) {
     await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
     // Create the "users" table if it doesn't exist
     const createTable = await client.sql`
-            CREATE TABLE IF NOT EXISTS users (
-                id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
-                lastname TEXT NOT NULL,
-                firstname TEXT NOT NULL,
-                email TEXT NOT NULL UNIQUE,
-                password TEXT NOT NULL,
-                avatar_id UUID NOT NULL REFERENCES "avatars" ("id")
-            );
-        `;
+        CREATE TABLE IF NOT EXISTS users (
+        id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+        lastname TEXT NOT NULL,
+        firstname TEXT NOT NULL,
+        email TEXT NOT NULL UNIQUE,
+        password TEXT NOT NULL,
+        avatar_id UUID NOT NULL REFERENCES "avatars" ("id")
+        );
+  `;
 
     console.log(`Created "users" table`);
 
-    return { createTable };
+    // Insert data into the "users" table
+    const insertedUsers = await Promise.all(
+      users.map(async (user) => {
+        const hashedPassword = await bcrypt.hash(user.password, 10);
+        return client.sql`
+          INSERT INTO users (id, lastname, firstname, email, password, avatar_id)
+          VALUES (${user.id}, ${user.lastname}, ${user.firstname}, ${user.email}, ${hashedPassword}, ${user.avatar_id})
+          ON CONFLICT (id) DO NOTHING;
+        `;
+      })
+    );
+
+    console.log(`Seeded ${insertedUsers.length} users`);
+
+    return { createTable, users: insertedUsers };
   } catch (error) {
     console.error("Error seeding users:", error);
     throw error;
@@ -188,23 +236,29 @@ async function seedReminders(client) {
 // === MAIN === //
 async function main() {
   // Connection to the Database
+  console.log("DB Connect");
   const client = await db.connect();
 
-  await seedStatus();
-  await seedAvatars();
-  await seedUsers();
-  await seedDebtors();
-  await seedInvoices();
-  await seedRefunds();
-  await seedReminders();
+  console.log("Drop tables if exists");
+  await dropTables(client);
+
+  console.log("Seeding...");
+  await seedStatus(client);
+  await seedAvatars(client);
+  await seedUsers(client);
+  await seedDebtors(client);
+  await seedInvoices(client);
+  await seedRefunds(client);
+  await seedReminders(client);
 
   // Disconnect from Database
+  console.log("DB Disconnect");
   await client.end();
 }
 
 main().catch((error) => {
   console.error(
-    `An error occured while attempting to see the database:`,
+    `An error occured while attempting to seed the database:`,
     error
   );
 });
