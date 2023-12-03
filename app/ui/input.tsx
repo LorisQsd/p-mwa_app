@@ -38,10 +38,7 @@ export default function Input({
       <label
         htmlFor={inputId}
         className={clsx(
-          "font-bold block z-0 duration-300 opacity-0 translate-y-full md:text-lg",
-          {
-            "opacity-100 translate-y-0": value?.length,
-          }
+          "font-bold block z-0 duration-300 md:text-lg", value?.length ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-full'
         )}
         // ACCESSIBILITY
         aria-hidden={value?.length ? "false" : "true"}
