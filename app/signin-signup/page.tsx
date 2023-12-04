@@ -31,8 +31,6 @@ export default function Page() {
     setActiveForm(query);
   };
 
-  console.log("rendu :", activeForm)
-
   return (
     <>
       <Logo to="/" />
