@@ -1,4 +1,6 @@
-import { useState } from "react";
+"use client";
+
+import { FormEvent, SetStateAction, useState } from "react";
 import Input from "./input";
 import Button from "./button";
 import {
@@ -6,8 +8,15 @@ import {
   EyeSlashIcon,
   EyeIcon,
 } from "@heroicons/react/24/outline";
+import { useFormStatus, useFormState } from "react-dom";
+import { createAccount } from "../lib/actions";
 
 export default function SignupForm() {
+  // DISPATCHER //
+  const initialState = { message: null, errors: {} };
+  const [state, dispatch] = useFormState(createAccount, initialState);
+
+  // REACT STATE //
   const [lastname, setLastname] = useState("");
   const [firstname, setFirstname] = useState("");
   const [email, setEmail] = useState("");
@@ -27,13 +36,14 @@ export default function SignupForm() {
   };
 
   return (
-    <form className="mt-5 flex flex-col gap-2">
+    <form className="mt-5 flex flex-col gap-2" action={dispatch}>
       <div className="md:flex md:justify-between">
         <Input
           label="Nom"
           isRequired
           type="text"
           name="lastname"
+          errMessage={state?.errors?.lastname}
           value={lastname}
           onChange={setLastname}
         />
@@ -43,6 +53,7 @@ export default function SignupForm() {
           isRequired
           type="text"
           name="firstname"
+          errMessage={state?.errors?.firstname}
           value={firstname}
           onChange={setFirstname}
         />
@@ -54,6 +65,7 @@ export default function SignupForm() {
         type="email"
         name="email"
         className="mt-5"
+        errMessage={state?.errors?.email}
         value={email}
         onChange={setEmail}
       >
@@ -65,7 +77,8 @@ export default function SignupForm() {
         isRequired
         name="password"
         type={isPasswordVisible ? "text" : "password"}
-        className="mt-5"
+        className="my-5"
+        errMessage={state?.errors?.password}
         value={password}
         onChange={setPassword}
       >
@@ -85,7 +98,8 @@ export default function SignupForm() {
       <Input
         label="Confirmation de mot de passe"
         isRequired
-        name="password-confirmation"
+        name="passwordConfirmation"
+        errMessage={state?.errors?.passwordConfirmation}
         type={isPasswordConfirmationVisible ? "text" : "password"}
         value={passwordConfirmation}
         onChange={setPasswordConfirmation}
@@ -103,7 +117,13 @@ export default function SignupForm() {
         )}
       </Input>
 
-      <Button content="S'inscrire" type="submit" className="mt-10" />
+      {state?.message && (
+        <p className="text-red-400 italic text-sm font-semibold my-5">
+          {state.message}
+        </p>
+      )}
+
+      <Button content="S'inscrire" type="submit" />
     </form>
   );
 }

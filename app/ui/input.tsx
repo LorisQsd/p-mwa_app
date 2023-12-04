@@ -5,6 +5,8 @@ type InputProps = {
   children?: React.ReactNode;
   isRequired?: boolean;
   className?: string;
+  errMessage?: string[] | undefined;
+
   name: string;
   label: string;
   type: string;
@@ -22,6 +24,7 @@ export default function Input({
   name,
   type,
   className = undefined,
+  errMessage = undefined,
 
   inputRef = null,
 
@@ -36,11 +39,14 @@ export default function Input({
   };
 
   return (
-    <div className={className}>
+    <div className={`relative ${className}`}>
       <label
         htmlFor={inputId}
         className={clsx(
-          "font-bold block z-0 duration-300 md:text-lg", value?.length ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-full'
+          "font-bold block z-0 duration-300 md:text-lg",
+          value?.length
+            ? "opacity-100 translate-y-0"
+            : "opacity-0 translate-y-full"
         )}
         // ACCESSIBILITY
         aria-hidden={value?.length ? "false" : "true"}
@@ -70,6 +76,12 @@ export default function Input({
         />
         {children}
       </div>
+
+      {errMessage && (
+        <p className="text-red-400 italic text-sm font-semibold w-full">
+          {errMessage[0]}
+        </p>
+      )}
     </div>
   );
 }

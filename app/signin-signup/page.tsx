@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
 import Logo from "../ui/logo";
 import Footer from "../ui/semantic/footer";
@@ -18,7 +18,7 @@ export default function Page() {
 
   // REACT STATE //
   // We want the query to be "signin" to prevent the fact that the user goes to the signin-up page through the url WITHOUT passing a query params "q"
-  const [activeForm, setActiveForm] = useState(qSearchParams || "signin");
+  const [activeForm, setActiveForm] = useState<string>(qSearchParams || "signin");
 
   // HANDLER //
   const handleActiveForm = (query: string) => {
@@ -30,6 +30,8 @@ export default function Page() {
 
     setActiveForm(query);
   };
+
+  console.log("rendu :", activeForm)
 
   return (
     <>
