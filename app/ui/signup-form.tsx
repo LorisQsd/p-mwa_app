@@ -33,6 +33,7 @@ export default function SignupForm() {
           label="Nom"
           isRequired
           type="text"
+          name="lastname"
           value={lastname}
           onChange={setLastname}
         />
@@ -41,6 +42,7 @@ export default function SignupForm() {
           label="Prénom"
           isRequired
           type="text"
+          name="firstname"
           value={firstname}
           onChange={setFirstname}
         />
@@ -50,6 +52,7 @@ export default function SignupForm() {
         label="Email"
         isRequired
         type="email"
+        name="email"
         className="mt-5"
         value={email}
         onChange={setEmail}
@@ -60,6 +63,7 @@ export default function SignupForm() {
       <Input
         label="Mot de passe"
         isRequired
+        name="password"
         type={isPasswordVisible ? "text" : "password"}
         className="mt-5"
         value={password}
@@ -81,6 +85,7 @@ export default function SignupForm() {
       <Input
         label="Confirmation de mot de passe"
         isRequired
+        name="password-confirmation"
         type={isPasswordConfirmationVisible ? "text" : "password"}
         value={passwordConfirmation}
         onChange={setPasswordConfirmation}

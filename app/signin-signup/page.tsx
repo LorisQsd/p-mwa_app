@@ -34,7 +34,7 @@ export default function Page() {
   return (
     <>
       <Logo to="/" />
-      <main className="grow flex px-2 items-center md:items-start md:pt-32 py-10">
+      <main className="grow flex px-2 pt-20 md:pt-32 py-10">
         <div className="rounded-lg bg-white mx-auto text-black py-10 md:px-10 px-4 h-fit max-w-[500px] w-full">
           {/* TITLE */}
           <h1 className="text-center mb-10 text-xl sm:text-2xl">

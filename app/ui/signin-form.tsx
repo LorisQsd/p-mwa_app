@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from "react";
 import Input from "./input";
 import Button from "./button";
@@ -7,8 +9,14 @@ import {
   EyeSlashIcon,
   EyeIcon,
 } from "@heroicons/react/24/outline";
+import { useFormStatus, useFormState } from "react-dom";
+import { authenticate } from "../lib/actions";
 
 export default function SigninForm() {
+  // DISPATCHER //
+  const [errorMessage, dispatch] = useFormState(authenticate, undefined);
+
+  // REACT STATE //
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -20,11 +28,12 @@ export default function SigninForm() {
 
   return (
     <>
-      <form className="mt-5 flex flex-col gap-2">
+      <form className="mt-5 flex flex-col gap-2" action={dispatch}>
         <Input
           label="Email de connexion"
           isRequired
           type="email"
+          name="email"
           value={email}
           onChange={setEmail}
         >
@@ -35,6 +44,7 @@ export default function SigninForm() {
           label="Mot de passe"
           isRequired
           type={isPasswordVisible ? "text" : "password"}
+          name="password"
           value={password}
           onChange={setPassword}
         >

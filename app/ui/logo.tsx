@@ -9,7 +9,7 @@ export default function Logo({ to }: { to: string }) {
         width={50}
         height={50}
         alt="Logo"
-        className="absolute top-5 left-5 w-[50px] aspect-auto"
+        className="absolute top-5 left-5 w-[50px] aspect-square"
       />
     </Link>
   );

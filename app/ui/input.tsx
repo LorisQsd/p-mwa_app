@@ -5,6 +5,7 @@ type InputProps = {
   children?: React.ReactNode;
   isRequired?: boolean;
   className?: string;
+  name: string;
   label: string;
   type: string;
 
@@ -18,6 +19,7 @@ export default function Input({
   label,
   isRequired = false,
   children = null,
+  name,
   type,
   className = undefined,
 
@@ -53,7 +55,7 @@ export default function Input({
             children ? "pl-10" : "pl-4"
           )}
           type={type}
-          name="email"
+          name={name}
           placeholder={label}
           required={isRequired}
           autoComplete="off"
