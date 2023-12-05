@@ -16,7 +16,7 @@ export default async function Layout({
   return (
     <>
       <Logo to="/dashboard" />
-      <header className="p-5 flex justify-end items-center gap-4 retative">
+      <header className="p-5 flex justify-end items-center gap-4 relative">
         {session?.user && (
           <p>
             Bonjour{" "}
@@ -27,7 +27,7 @@ export default async function Layout({
         )}
         <Profile />
       </header>
-      <main className="grow flex p-2 sm:p-4 mb-24 sm:mb-0">
+      <main className="grow flex p-2 sm:p-4 mb-24 sm:mb-0 max-h-[80vh] overflow-hidden">
         <SideNav />
         {children}
       </main>

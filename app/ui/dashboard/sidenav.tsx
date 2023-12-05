@@ -25,7 +25,7 @@ export default function SideNav() {
   const pathname = usePathname();
 
   return (
-    <nav className="fixed bottom-5 left-1/2 -translate-x-1/2 w-[80%] h-[50px] bg-slate-200 rounded-md flex items-center justify-center sm:static sm:translate-x-0 sm:w-[15vh] sm:h-[80vh] sm:bg-transparent shadow-xl sm:shadow-none">
+    <nav className="fixed bottom-5 left-1/2 -translate-x-1/2 w-[80%] h-[50px] bg-slate-200 rounded-md flex items-center justify-center sm:sticky sm:left-0 sm:top-0 sm:translate-x-0 sm:w-[15vh] sm:h-[80vh] sm:bg-transparent shadow-xl sm:shadow-none">
       <ul className="flex justify-evenly items-center w-full sm:flex-col sm:gap-6">
         {links.map((link) => {
           const LinkIcon = link.icon;
