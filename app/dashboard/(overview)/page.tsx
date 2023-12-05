@@ -68,7 +68,7 @@ export default function Dashboard() {
       </div>
 
       {/* DISPLAY ADD INFO MODAL */}
-      {modal && createPortal(<AddDebtorModale modaleState={modal} modaleStateSetter={setModal} />, document.body)}
+      {modal && createPortal(<AddDebtorModale modaleStateSetter={setModal} />, document.body)}
     </>
   );
 }

@@ -1,10 +1,10 @@
 const status = [
   {
-    id: "3958dc9e-742f-4377-85e9-fec4b6a6442a",
+    id:"fdd1bc89-f681-4a2a-83db-b62e6fdabdeb",
     name: "En cours",
   },
   {
-    id: "3958dc9e-737f-4377-85e9-fec4b6a6442a",
+    id:"db4b7be6-be46-4bc5-adac-e12dd2172c6c",
     name: "Archivé",
   },
 ];

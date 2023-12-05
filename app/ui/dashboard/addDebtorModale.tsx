@@ -2,16 +2,20 @@ import { Dispatch, SetStateAction, useState } from "react";
 import Modale from "./modale";
 import Input from "../input";
 import Button from "../button";
+import { useFormState } from "react-dom";
+import { createDebtor } from "@/app/lib/actions";
 
 type AddDebtorModaleProps = {
-  modaleState: boolean;
   modaleStateSetter: Dispatch<SetStateAction<boolean>>;
 };
 
 export default function AddDebtorModale({
-  modaleState,
   modaleStateSetter,
 }: AddDebtorModaleProps) {
+  // DISPATCHER //
+  const initialState = { message: null, errors: {} };
+  const [errorMessage, dispatch] = useFormState(createDebtor, initialState);
+
   // HANDLERS //
   const handleCancelClick = () => {
     modaleStateSetter(false);
@@ -27,7 +31,8 @@ export default function AddDebtorModale({
     <Modale closeModal={handleCancelClick}>
       <h1 className="text-center">Ajout d&apos;un débiteur</h1>
 
-      <form className="flex flex-col items-center">
+      <form className="flex flex-col items-center" action={dispatch} onSubmit={handleCancelClick}>
+        <div className="flex gap-4">
         <Input
           label="* Nom"
           isRequired
@@ -46,10 +51,13 @@ export default function AddDebtorModale({
           onChange={setFirstname}
         />
 
+        </div>
+
         <Input
           label="Email"
           type="email"
           name="email"
+          className="w-full"
           value={email}
           onChange={setEmail}
         />
@@ -58,6 +66,7 @@ export default function AddDebtorModale({
           label="Téléphone"
           type="text"
           name="phone"
+          className="w-full"
           value={phone}
           onChange={setPhone}
         />
