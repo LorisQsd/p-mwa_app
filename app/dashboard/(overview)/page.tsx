@@ -12,7 +12,7 @@ import {
 import AddDebtorModale from "@/app/ui/dashboard/addDebtorModale";
 
 export default function Dashboard() {
-  const [modal, setModal] = useState(true);
+  const [modal, setModal] = useState(false);
 
   // Handlers //
   const showModal = () => {
@@ -61,7 +61,7 @@ export default function Dashboard() {
           className="w-[50px] bg-primary-400 shadow-lg hover:shadow-custom rounded-full text-white p-1 fixed bottom-24 right-5 flex md:w-fit items-center gap-2 sm:bottom-5"
         >
           <PlusIcon className="w-[50px] md:w-[40px]" />
-          <span className="hidden md:block md:mr-2 text-sm tracking-wider">
+          <span className="hidden md:block md:mr-2 text-sm tracking-wider md:text-black">
             Ajouter un débiteur
           </span>
         </button>

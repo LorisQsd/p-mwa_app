@@ -1,8 +1,9 @@
 import type { NextAuthConfig } from 'next-auth';
 
 export const authConfig: NextAuthConfig = {
+  trustHost: true,
   pages: {
-    signIn: '/',
+    signIn: '/signin-signup',
   },
   session: { strategy: "jwt" },
   secret: process.env.AUTH_SECRET,
