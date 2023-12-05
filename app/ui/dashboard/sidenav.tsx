@@ -3,7 +3,7 @@
 import Link from "next/link";
 import {
   Squares2X2Icon,
-  CurrencyDollarIcon,
+  CurrencyEuroIcon,
   ChartPieIcon,
 } from "@heroicons/react/24/solid";
 import { usePathname } from "next/navigation";
@@ -16,7 +16,7 @@ const links = [
   {
     name: "Resume",
     href: "/dashboard/resume",
-    icon: CurrencyDollarIcon,
+    icon: CurrencyEuroIcon,
   },
   { name: "Stats", href: "/dashboard/stats", icon: ChartPieIcon },
 ];
@@ -25,7 +25,7 @@ export default function SideNav() {
   const pathname = usePathname();
 
   return (
-    <nav className="absolute bottom-5 left-1/2 -translate-x-1/2 w-[80%] h-[50px] bg-slate-200 rounded-md flex items-center justify-center sm:static sm:translate-x-0 sm:w-[15%] sm:h-[80vh] sm:bg-transparent">
+    <nav className="fixed bottom-5 left-1/2 -translate-x-1/2 w-[80%] h-[50px] bg-slate-200 rounded-md flex items-center justify-center sm:static sm:translate-x-0 sm:w-[15vh] sm:h-[80vh] sm:bg-transparent shadow-xl sm:shadow-none">
       <ul className="flex justify-evenly items-center w-full sm:flex-col sm:gap-6">
         {links.map((link) => {
           const LinkIcon = link.icon;
