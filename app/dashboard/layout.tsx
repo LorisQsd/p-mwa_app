@@ -26,9 +26,11 @@ export default async function Layout({
           </p>
         )}
         <Profile />
-        <SideNav />
       </header>
-      {children}
+      <main className="grow flex p-2 sm:p-4">
+        <SideNav />
+        {children}
+      </main>
     </>
   );
 }
