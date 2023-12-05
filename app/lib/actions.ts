@@ -221,3 +221,19 @@ export async function createDebtor(prevState: DebtorState, formData: FormData) {
   revalidatePath("/dashboard")
   redirect("/dashboard");
 }
+
+export async function deleteDebtor(id: string) {
+
+  try {
+    await sql`
+        DELETE FROM debtors
+        WHERE id=${id}
+    `
+
+    revalidatePath("/dashboard/resume")
+  } catch (error) {
+    return {
+      message: "Erreur de base de données: Echec lors de la suppression d'un débiteur."
+    }
+  }
+}

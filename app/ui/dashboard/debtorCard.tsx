@@ -1,5 +1,6 @@
 import { Debtor } from "@/app/lib/definitions";
 import Link from "next/link";
+import { deleteDebtor } from "@/app/lib/actions";
 
 export default function DebtorCard({
   id,
@@ -8,6 +9,8 @@ export default function DebtorCard({
   email,
   phone,
 }: Debtor) {
+    const deleteDebtorWithId = deleteDebtor.bind(null, id);
+
   return (
     <div className="w-full bg-slate-100 rounded-md text-black p-2 mb-5 grid items-center grid-cols-12 gap-4">
       <div className="flex flex-col gap-2 items-center justify-center col-span-6 sm:col-span-4">
@@ -38,7 +41,7 @@ export default function DebtorCard({
         Voir plus
       </Link>
 
-      <form action="">
+      <form action={deleteDebtorWithId}>
         <button
           type="submit"
           className=" bg-red-500 rounded-md hover:bg-red-600 duration-150 p-2 text-black"
