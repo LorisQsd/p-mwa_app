@@ -6,6 +6,7 @@ export const authConfig: NextAuthConfig = {
     signIn: '/signin-signup',
   },
   session: { strategy: "jwt" },
+  secret: process.env.NEXT_PUBLIC_SECRET,
   callbacks: {
     jwt ({token, user}) {
       if (user) {
