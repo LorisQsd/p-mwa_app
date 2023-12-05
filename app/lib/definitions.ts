@@ -13,6 +13,12 @@ export type Debtor = {
     firstname: string;
     email: string | null;
     phone: string | null;
+    date: string;
     user_id: string;
     status_id: string;
+}
+
+export type Status = {
+    id: string;
+    name: string;
 }

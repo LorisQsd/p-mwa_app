@@ -1,6 +1,6 @@
 import { sql } from '@vercel/postgres';
 import { unstable_noStore as noStore } from 'next/cache';
-import { Debtor } from './definitions';
+import { Debtor, Status } from './definitions';
 
 export async function fetchDebtors() {
     // Add noStore() here prevents the response from being cached
@@ -8,7 +8,7 @@ export async function fetchDebtors() {
     noStore();
 
     try {
-        const data = await sql<Debtor>`SELECT * FROM debtors`;
+        const data = await sql<Debtor & Status >`SELECT * FROM debtors JOIN status ON debtors.status_id = status.id`;
 
         return data.rows;
     } catch (error) {
