@@ -1,6 +1,6 @@
 "use server";
 
-import { signIn } from "@/auth";
+import { signIn, signOut } from "@/auth";
 import { AuthError } from "next-auth";
 import { revalidatePath } from "next/cache";
 import { sql } from "@vercel/postgres";
@@ -8,6 +8,13 @@ import { redirect } from "next/navigation";
 import { z } from "zod";
 import bcrypt from "bcrypt";
 
+export async function logout() {
+  try {
+    await signOut({ redirectTo: "/signin-signup?q=signin" });
+  } catch (error) {
+    throw error;
+  }
+}
 
 export async function authenticate(
   prevState: string | undefined,
@@ -112,7 +119,7 @@ export async function createAccount(prevState: State, formData: FormData) {
         VALUES (${lastname}, ${firstname}, ${email}, ${hashedPassword}, ${defaultAvatarId});
       `;
 
-    console.log(`Le compte de ${lastname} ${firstname} a bien été créé.`)
+    console.log(`Le compte de ${lastname} ${firstname} a bien été créé.`);
   } catch (error) {
     return {
       message:

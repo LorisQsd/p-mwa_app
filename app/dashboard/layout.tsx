@@ -1,25 +1,22 @@
 import SideNav from "../ui/dashboard/sidenav";
 import Logo from "../ui/logo";
-import { UserIcon } from "@heroicons/react/24/outline";
-import Image from "next/image";
 import { auth } from "@/auth";
-import { useSession } from "next-auth/react";
+import Profile from "../ui/dashboard/profile";
 
+// The async component rendering is not compatible with the "use client"
+// That's why I need to transform the Profile into a component
 export default async function Layout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  // We want to get the session info
   const session = await auth();
-
-  if (session?.user) {
-    console.log(session);
-  }
 
   return (
     <>
       <Logo to="/dashboard" />
-      <header className="p-5 flex justify-end items-center gap-4">
+      <header className="p-5 flex justify-end items-center gap-4 retative">
         {session?.user && (
           <p>
             Bonjour{" "}
@@ -28,11 +25,9 @@ export default async function Layout({
             </span>
           </p>
         )}
-        <div className="w-[50px] aspect-square bg-slate-200 rounded-full p-2">
-          <UserIcon title="Icone Utilisateur" className="w-full text-black" />
-        </div>
+        <Profile />
+        <SideNav />
       </header>
-      <SideNav />
       {children}
     </>
   );
