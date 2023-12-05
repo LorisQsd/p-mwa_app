@@ -24,11 +24,25 @@ export default function Profile() {
         <UserIcon title="Icone Utilisateur" className="w-full text-black" />
       </button>
       {profileToast && (
-        <div className="bg-white rounded-lg absolute top-14 p-4 right-6 text-black w-[200px]">
-          <form
-            action={logout}
+        <div className="bg-white rounded-lg absolute top-14 p-4 right-6 text-black w-[200px] flex flex-col items-center justify-center gap-2">
+          {/* CLOSE TOAST BUTTON */}
+          <button
+            type="button"
+            onClick={() => setProfileToast(false)}
+            className="w-[20px] h-[20px] rounded-full bg-red-500 text-white rhd absolute top-1 right-1 flex items-center justify-center"
           >
-            <Button content="Se deconnecter" type="submit" />
+            x
+          </button>
+
+          <Link href={"/dashboard/profile"} className="rhd">
+            Mon Profile
+          </Link>
+          <Link href={"/dashboard/support"} className="rhd">
+            Contacter le support
+          </Link>
+
+          <form action={logout}>
+            <Button content="Déconnexion" type="submit" />
           </form>
         </div>
       )}
