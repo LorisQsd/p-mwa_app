@@ -58,9 +58,9 @@ export default function Dashboard() {
         <button
           type="button"
           onClick={showModal}
-          className="w-[50px] bg-primary-400 shadow-lg hover:shadow-custom rounded-full text-white p-1 fixed bottom-24 right-5 flex md:w-fit items-center gap-2 sm:bottom-5"
+          className="w-[50px] bg-primary-400 shadow-lg hover:shadow-custom hover:scale-105 duration-300 rounded-full text-white p-1 fixed bottom-24 right-5 flex md:w-fit items-center gap-2 sm:bottom-5"
         >
-          <PlusIcon className="w-[50px] md:w-[40px]" />
+          <PlusIcon className="w-[50px] md:w-[40px] text-black" />
           <span className="hidden md:block md:mr-2 text-sm tracking-wider md:text-black">
             Ajouter un débiteur
           </span>

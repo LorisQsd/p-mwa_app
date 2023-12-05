@@ -2,6 +2,7 @@
 import { LegacyRef, useEffect, useRef } from 'react';
 
 import { PlusIcon } from '@heroicons/react/24/solid';
+import clsx from 'clsx';
 
 type ModaleProps = {
     closeModal?: () => void | null;
@@ -38,7 +39,7 @@ export default function Modale({ closeModal = () => null, children, notClosable 
         role="dialog"
         onClick={(event) => event.stopPropagation()}
         onKeyDown={handleKeyDown}
-        className="relative block max-h-full min-w-[300px] max-w-[1000px] p-4 m-auto mx-4 overflow-y-auto overflow-x-hidden slide rounded-xl pt-10 bg-slate-50"
+        className="relative block max-h-full min-w-[300px] max-w-[1000px] p-4 m-auto mx-4 overflow-y-auto overflow-x-hidden rounded-xl pt-10 bg-slate-50 slide"
       >
         {/* If we can close the modal, we want to display the close modal button */}
         {!notClosable && (
