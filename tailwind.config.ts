@@ -13,7 +13,9 @@ const config: Config = {
       },
       colors: {
         primary: {
-          400: '#39EC75'
+          200: '#5aed8b',
+          400: '#39EC75',
+          700: '#09bd45'
         },
         secondary: {
           400: "#17181E"

@@ -21,6 +21,12 @@ export default function AddDebtorModale({
     modaleStateSetter(false);
   };
 
+  const handleSubmit = () => {
+    
+    if (!errorMessage.message) handleCancelClick()
+    else console.log(errorMessage);
+  }
+
   // REACT STATES //
   const [lastname, setLastname] = useState("");
   const [firstname, setFirstname] = useState("");
@@ -31,7 +37,7 @@ export default function AddDebtorModale({
     <Modale closeModal={handleCancelClick}>
       <h1 className="text-center">Ajout d&apos;un débiteur</h1>
 
-      <form className="flex flex-col items-center" action={dispatch} onSubmit={handleCancelClick}>
+      <form className="flex flex-col items-center" action={dispatch} onSubmit={handleSubmit}>
         <div className="flex gap-4">
         <Input
           label="* Nom"

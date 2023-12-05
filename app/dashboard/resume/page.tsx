@@ -1,5 +1,16 @@
-export default function Resume() {
+import { fetchDebtors } from "@/app/lib/data"
+import DebtorCard from "@/app/ui/dashboard/debtorCard";
+
+export default async function Resume() {
+    const debtors = await fetchDebtors();
+
     return (
-        <h1>Je suis la page de résumé de tous les remboursements en cours</h1>
+        <div className="w-full">
+            <h1>Vos débiteurs</h1>
+
+            {debtors.map((debtor) => (
+                <DebtorCard key={debtor.id} {...debtor} />
+            ))}
+        </div>
     )
 }

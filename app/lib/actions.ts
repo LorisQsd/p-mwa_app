@@ -152,10 +152,10 @@ const CreateDebtorEntries = z
         invalid_type_error: "Veuillez entrer un Prénom valide.",
       })
       .nonempty("Un prénom est requis."),
-    email: z.string().email({ message: "Veuillez entrer un email valide." }),
+    email: z.string().email({ message: "Veuillez entrer un email valide." }).optional().or(z.literal('')),
     phone: z
       .string({ invalid_type_error: "Veuillez entrer un Téléphone valide" })
-      .length(10, { message: "Veuillez renseigner 10 chiffres" }),
+      .length(10, { message: "Veuillez renseigner 10 chiffres" }).optional().or(z.literal('')),
     user_id: z.string(),
     status_id: z.enum(["En cours", "Archivé"], {
       invalid_type_error: "Le status sélectionné n'est pas valide.",
