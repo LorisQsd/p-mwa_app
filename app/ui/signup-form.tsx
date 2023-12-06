@@ -10,6 +10,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { useFormStatus, useFormState } from "react-dom";
 import { createAccount } from "../lib/actions";
+import Loader from "./loader";
 
 export default function SignupForm() {
   // DISPATCHER //
@@ -123,7 +124,22 @@ export default function SignupForm() {
         </p>
       )}
 
-      <Button type="submit">S&apos;inscrire</Button>
+      <SignupButton/>
     </form>
+  );
+}
+
+function SignupButton() {
+  const { pending } = useFormStatus();
+
+  return (
+    <Button
+      aria-disabled={pending}
+      disabled={pending}
+      type="submit"
+      className="mt-4 w-full"
+    >
+      {pending ? <Loader minWidth={20} maxWidth={25} /> : "S'inscrire"}
+    </Button>
   );
 }
