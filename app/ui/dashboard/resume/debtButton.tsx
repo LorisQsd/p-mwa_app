@@ -21,7 +21,7 @@ export default function DebtButton({debtorId}: {debtorId: string}) {
       <button
         onClick={() => setModale(true)}
         type="button"
-        className="flex justify-center items-center bg-orange-500 text-black p-2 rounded-lg hover:shadow-custom fixed bottom-32 right-2 gap-2"
+        className="flex justify-center items-center bg-orange-500 text-black p-2 rounded-lg hover:shadow-custom fixed bottom-32 sm:bottom-16 right-2 gap-2"
       >
         <PlusIcon className="w-[25px]" /> Dette
       </button>
