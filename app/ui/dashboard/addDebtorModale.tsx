@@ -77,7 +77,7 @@ export default function AddDebtorModale({
           onChange={setPhone}
         />
 
-        <Button type="submit" content="Valider" className="w-1/2 mt-5" />
+        <Button type="submit" className="w-1/2 mt-5">Valider</Button>
       </form>
     </Modale>
   );

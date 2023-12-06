@@ -8,9 +8,11 @@ import {
   AtSymbolIcon,
   EyeSlashIcon,
   EyeIcon,
+  ExclamationCircleIcon,
 } from "@heroicons/react/24/outline";
 import { useFormStatus, useFormState } from "react-dom";
 import { authenticate } from "../lib/actions";
+import Loader from "./loader";
 
 export default function SigninForm() {
   // DISPATCHER //
@@ -61,7 +63,17 @@ export default function SigninForm() {
           )}
         </Input>
 
-        <Button content="Se connecter" type="submit" className="mt-10" />
+        {/* ERROR HANDLER */}
+        {errorMessage && (
+          <div className="flex h-8 items-end space-x-1">
+            <>
+              <ExclamationCircleIcon className="h-5 w-5 text-red-500" />
+              <p className="text-sm text-red-500">{errorMessage}</p>
+            </>
+          </div>
+        )}
+
+        <LoginButton />
       </form>
 
       {/* Send to the reset page */}
@@ -72,5 +84,20 @@ export default function SigninForm() {
         Mot de passe oublié ?
       </Link>
     </>
+  );
+}
+
+function LoginButton() {
+  const { pending } = useFormStatus();
+
+  return (
+    <Button
+      aria-disabled={pending}
+      disabled={pending}
+      type="submit"
+      className="mt-4 w-full"
+    >
+      {pending ? <Loader minWidth={20} maxWidth={25}/> : "Se connecter"}
+    </Button>
   );
 }

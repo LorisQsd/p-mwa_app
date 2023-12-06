@@ -123,7 +123,7 @@ export default function SignupForm() {
         </p>
       )}
 
-      <Button content="S'inscrire" type="submit" />
+      <Button type="submit">S&apos;inscrire</Button>
     </form>
   );
 }

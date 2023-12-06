@@ -42,7 +42,7 @@ export default function Profile() {
           </Link>
 
           <form action={logout}>
-            <Button content="Déconnexion" type="submit" />
+            <Button type="submit">Déconnexion</Button>
           </form>
         </div>
       )}
