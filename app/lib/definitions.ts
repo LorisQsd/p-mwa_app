@@ -18,6 +18,14 @@ export type Debtor = {
     status_id: string;
 }
 
+export type Debt = {
+    id: string;
+    name: string;
+    amount: number;
+    date: string;
+    debtor_id: string;
+}
+
 export type Status = {
     id: string;
     name: string;

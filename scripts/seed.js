@@ -14,7 +14,7 @@ async function dropTables(client) {
 
         DROP TABLE IF EXISTS "debtors" CASCADE;
 
-        DROP TABLE IF EXISTS "invoices" CASCADE;
+        DROP TABLE IF EXISTS "debts" CASCADE;
 
         DROP TABLE IF EXISTS "refunds" CASCADE;
 
@@ -162,26 +162,26 @@ async function seedDebtors(client) {
   }
 }
 
-// === INVOICES === //
-async function seedInvoices(client) {
+// === DEBT === //
+async function seedDebts(client) {
   try {
     await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
-    // Create the "invoices" table if it doesn't exist
+    // Create the "debts" table if it doesn't exist
     const createTable = await client.sql`
-            CREATE TABLE IF NOT EXISTS invoices (
+            CREATE TABLE IF NOT EXISTS debts (
               id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
               name TEXT NOT NULL,
-              amout DECIMAL(19,2) NOT NULL,
+              amount DECIMAL(19,2) NOT NULL,
               date DATE NOT NULL,
               debtor_id UUID NOT NULL REFERENCES "debtors" ("id")
             );
           `;
 
-    console.log(`Created "invoices" table`);
+    console.log(`Created "debts" table`);
 
     return { createTable };
   } catch (error) {
-    console.error("Error seeding invoices:", error);
+    console.error("Error seeding debts:", error);
     throw error;
   }
 }
@@ -247,7 +247,7 @@ async function main() {
   await seedAvatars(client);
   await seedUsers(client);
   await seedDebtors(client);
-  await seedInvoices(client);
+  await seedDebts(client);
   await seedRefunds(client);
   await seedReminders(client);
 

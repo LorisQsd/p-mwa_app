@@ -33,8 +33,6 @@ export async function fetchDebtorById(id: string) {
     try {
       const session = await auth();
       const userId = session?.user.id;
-
-      console.log(userId)
   
       const data = await sql<Debtor & Status>`
               SELECT * FROM debtors 
@@ -43,7 +41,7 @@ export async function fetchDebtorById(id: string) {
               AND debtors.id = ${id}
           `;
   
-      return data.rows;
+      return data.rows[0];
     } catch (error) {
       console.error("Database Error:", error);
       throw new Error("Echec lors de la récupération des débiteurs.");

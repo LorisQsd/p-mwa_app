@@ -12,11 +12,11 @@ import {
 import AddDebtorModale from "@/app/ui/dashboard/addDebtorModale";
 
 export default function Dashboard() {
-  const [modal, setModal] = useState(false);
+  const [modale, setModale] = useState(false);
 
   // Handlers //
-  const showModal = () => {
-    setModal(true);
+  const showModale = () => {
+    setModale(true);
   }
 
   return (
@@ -57,7 +57,7 @@ export default function Dashboard() {
 
         <button
           type="button"
-          onClick={showModal}
+          onClick={showModale}
           className="w-[50px] bg-primary-400 shadow-lg hover:shadow-custom hover:scale-105 duration-300 rounded-full text-white p-1 fixed bottom-24 right-5 flex md:w-fit items-center gap-2 sm:bottom-5"
         >
           <PlusIcon className="w-[50px] md:w-[40px] text-black" />
@@ -67,8 +67,8 @@ export default function Dashboard() {
         </button>
       </div>
 
-      {/* DISPLAY ADD INFO MODAL */}
-      {modal && createPortal(<AddDebtorModale modaleStateSetter={setModal} />, document.body)}
+      {/* DISPLAY ADD DEBTOR MODALE */}
+      {modale && createPortal(<AddDebtorModale modaleStateSetter={setModale} />, document.body)}
     </>
   );
 }

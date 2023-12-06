@@ -23,7 +23,7 @@ export default function Input({
   children = null,
   name,
   type,
-  className = undefined,
+  className = "",
   errMessage = undefined,
 
   inputRef = null,
@@ -39,7 +39,9 @@ export default function Input({
   };
 
   return (
-    <div className={`relative ${className}`}>
+    <div
+      className={clsx(`relative ${className}`, { hidden: type === "hidden" })}
+    >
       <label
         htmlFor={inputId}
         className={clsx(
