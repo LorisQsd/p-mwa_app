@@ -21,7 +21,7 @@ export default function Dashboard() {
 
   return (
     <>
-      <div className="w-full text-black sm:grid sm:grid-cols-12 sm:gap-3">
+      <div className="w-full text-black sm:grid sm:grid-cols-12 sm:gap-3 overflow-y-auto">
         <section className="w-full min-h-[200px] bg-slate-50 rounded-md p-4 mb-2 sm:mb-0 sm:col-span-6 sm:row-span-4">
           <h2 className="flex gap-2 items-center">
             <ChartPieIcon className="w-[40px]" />

@@ -13,7 +13,7 @@ export async function fetchDebtors() {
     const userId = session?.user.id;
 
     const data = await sql<Debtor & Status>`
-            SELECT * FROM debtors 
+            SELECT debtors.id, lastname, firstname, email, phone, status, user_id, date FROM debtors 
             JOIN status ON debtors.status_id = status.id
             WHERE debtors.user_id = ${userId}
         `;
@@ -24,3 +24,29 @@ export async function fetchDebtors() {
     throw new Error("Echec lors de la récupération des débiteurs.");
   }
 }
+
+export async function fetchDebtorById(id: string) {
+    // Add noStore() here prevents the response from being cached
+    // This is equivalent to fetch (..., {cache: 'no store'})
+    noStore();
+  
+    try {
+      const session = await auth();
+      const userId = session?.user.id;
+
+      console.log(userId)
+  
+      const data = await sql<Debtor & Status>`
+              SELECT * FROM debtors 
+              JOIN status ON debtors.status_id = status.id
+              WHERE debtors.user_id = ${userId}
+              AND debtors.id = ${id}
+          `;
+  
+      return data.rows;
+    } catch (error) {
+      console.error("Database Error:", error);
+      throw new Error("Echec lors de la récupération des débiteurs.");
+    }
+  }
+  
