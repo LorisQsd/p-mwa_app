@@ -20,6 +20,8 @@ export default function SigninForm() {
 
   // REACT STATE //
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+
+  // CONTROLLED INPUTS //
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -87,6 +89,7 @@ export default function SigninForm() {
   );
 }
 
+// We need to separate the logic of this Button Component to be able to use useFormStatus and its pending state.
 function LoginButton() {
   const { pending } = useFormStatus();
 

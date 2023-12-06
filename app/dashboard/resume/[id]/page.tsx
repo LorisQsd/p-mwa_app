@@ -17,12 +17,13 @@ export default async function Page({ params }: { params: { id: string } }) {
   }
 
   const formatedDate = dayjs(debtor.date.toString()).format("DD/MM/YYYY");
+  // Better naming :
   const statusName = debtor.name;
 
   return (
     <>
       <div className="w-full overflow-y-auto pr-2">
-        <section className="w-full bg-slate-100 rounded-md text-black p-4">
+        <section className="w-full bg-slate-100 rounded-md text-black p-4 max-w-[600px] mx-auto">
           <h2 className="text-center mb-4">Informations du débiteur</h2>
 
           <div className="flex justify-between mb-2">

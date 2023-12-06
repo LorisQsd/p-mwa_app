@@ -17,11 +17,14 @@ const momumentExtended = localFont({
     },
   ],
 });
+
+// For this font, we want to add a variable so we will be able to use it into a css file
 const redHatDisplay = Red_Hat_Display({
   subsets: ["latin"],
   variable: "--font-red-hat-display",
 });
 
+// === SEO === //
 export const metadata: Metadata = {
   title: "P-MWA",
   description: "Application pour gérer ses remboursements.",

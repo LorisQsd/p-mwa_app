@@ -14,7 +14,9 @@ export default function DebtorCard({
   date,
   name: statusName,
 }: Debtor & Status) {
+  // We want to bind the id to the deleteDebtor function so it will add a new id context to execute the async function
   const deleteDebtorWithId = deleteDebtor.bind(null, id);
+
   const formatedDate = dayjs(date.toString()).format("DD/MM/YYYY");
 
   return (

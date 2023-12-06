@@ -23,10 +23,9 @@ export default function AddDebtModale({
     modaleStateSetter(false);
   };
 
+  // When we submit the form, we want to hide the modal if there's no errorMessage sent to the client
+  // Otherwise, the modale will stay open even if the request is successful
   const handleSubmit = () => {
-
-    console.log(errorMessage)
-
     if (!errorMessage.message) handleCancelClick();
     else console.log(errorMessage);
   };
@@ -40,7 +39,11 @@ export default function AddDebtModale({
     <Modale closeModal={handleCancelClick}>
       <h1 className="text-center">Ajout d&apos;une dette</h1>
 
-      <form action={dispatch} className="flex flex-col items-center" onSubmit={handleSubmit}>
+      <form
+        action={dispatch}
+        className="flex flex-col items-center"
+        onSubmit={handleSubmit}
+      >
         <Input
           label="* Raison"
           isRequired

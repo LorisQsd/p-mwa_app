@@ -1,6 +1,4 @@
-import Image from "next/image";
-import Loader from "../../public/loader-spin.svg";
-
+// We want to extend the interface of the React button to be able to pass the ...rest props
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   // Optional
   type?: "button" | "submit" | "reset";

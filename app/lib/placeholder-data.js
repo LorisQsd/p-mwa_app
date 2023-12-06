@@ -1,3 +1,4 @@
+// These datas are useful only for the seeding of the database
 const status = [
   {
     id:"fdd1bc89-f681-4a2a-83db-b62e6fdabdeb",
@@ -22,6 +23,8 @@ const users = [
     lastname: "Doe",
     firstname: "John",
     email: "loris.quesado@hotmail.fr",
+    // !!! Password visible so the DB is accessible from this account !!! //
+    // Maybe we could make an env variable for the password (only in dev mode to send the seeding) //
     password: "Password123!",
     avatar_id: "3958dc9e-712f-4377-85e9-fec4b6a6442a"
   },

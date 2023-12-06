@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, SetStateAction, useState } from "react";
+import { useState } from "react";
 import Input from "./input";
 import Button from "./button";
 import {
@@ -17,15 +17,17 @@ export default function SignupForm() {
   const initialState = { message: null, errors: {} };
   const [state, dispatch] = useFormState(createAccount, initialState);
 
-  // REACT STATE //
+  // REACT STATES //
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const [isPasswordConfirmationVisible, setIsPasswordConfirmationVisible] =
+    useState(false);
+
+  // CONTROLLED INPUTS //
   const [lastname, setLastname] = useState("");
   const [firstname, setFirstname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
-  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-  const [isPasswordConfirmationVisible, setIsPasswordConfirmationVisible] =
-    useState(false);
 
   // HANDLERS //
   const handlePasswordVisibility = () => {
@@ -124,11 +126,12 @@ export default function SignupForm() {
         </p>
       )}
 
-      <SignupButton/>
+      <SignupButton />
     </form>
   );
 }
 
+// We need to separate the logic of this Button Component to be able to use useFormStatus and its pending state.
 function SignupButton() {
   const { pending } = useFormStatus();
 

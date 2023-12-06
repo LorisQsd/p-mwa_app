@@ -11,6 +11,7 @@ import clsx from "clsx";
 
 // Map of links to display in the side navigation.
 // Good for maintanability
+// If you want to add a new link, you just need to add a new entry into the links object array
 const links = [
   { name: "Home", href: "/dashboard", icon: Squares2X2Icon },
   {

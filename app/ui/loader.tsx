@@ -6,6 +6,7 @@ type LoaderProps = {
   maxWidth: number;
 };
 
+// The minWidth & maxWidht are important to set because it gives us a total control of the loader dimensions and we will reduce as much as possible the CLS (Cumulative Layout Shift)
 export default function Loader({ minWidth, maxWidth }: LoaderProps) {
   return (
     <Image

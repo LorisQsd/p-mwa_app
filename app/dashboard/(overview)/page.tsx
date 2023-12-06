@@ -11,6 +11,7 @@ import {
 } from "@heroicons/react/24/solid";
 import AddDebtorModale from "@/app/ui/dashboard/addDebtorModale";
 
+// This component is in an overview because later, we want to avoid rendering pending issues with skeletons between each components.
 export default function Dashboard() {
   const [modale, setModale] = useState(false);
 

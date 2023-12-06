@@ -1,8 +1,6 @@
-/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import { LegacyRef, useEffect, useRef } from 'react';
 
 import { PlusIcon } from '@heroicons/react/24/solid';
-import clsx from 'clsx';
 
 type ModaleProps = {
     closeModal?: () => void | null;
@@ -10,6 +8,8 @@ type ModaleProps = {
     notClosable?: boolean;
     reference?: LegacyRef<HTMLDivElement>;
 }
+
+// THIS IS A MODALE TEMPLATE //
 
 export default function Modale({ closeModal = () => null, children, notClosable = false, reference = null }: ModaleProps) {
   // === REFERENCE === //

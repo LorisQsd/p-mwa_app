@@ -21,8 +21,9 @@ export default function AddDebtorModale({
     modaleStateSetter(false);
   };
 
+  // When we submit the form, we want to hide the modal if there's no errorMessage sent to the client
+  // Otherwise, the modale will stay open even if the request is successful
   const handleSubmit = () => {
-    
     if (!errorMessage.message) handleCancelClick()
     else console.log(errorMessage);
   }

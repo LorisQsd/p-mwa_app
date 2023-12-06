@@ -11,8 +11,13 @@ import clsx from "clsx";
 export default function Page() {
   // URL //
   const searchParams = useSearchParams();
+  // !! BETTER NAMING POSSIBLE !! //
+  // I can improve the naming of the search param.
+  // I set q for "query"
   const qSearchParams = searchParams.get("q");
 
+  // We want to get the current pathname and the replace method from the useRouter hook
+  // Because depending of the current active form (client side) we want to change the url
   const pathname = usePathname();
   const { replace } = useRouter();
 
@@ -22,6 +27,7 @@ export default function Page() {
 
   // HANDLER //
   const handleActiveForm = (query: string) => {
+    // Depending of the query (see the jsx bellow) we change the url so it will change the form to display
     const params = new URLSearchParams(searchParams);
 
     params.set("q", query);

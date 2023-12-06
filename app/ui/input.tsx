@@ -31,6 +31,7 @@ export default function Input({
   value,
   onChange,
 }: InputProps) {
+  // The useId method is useful to link a label with it corresponding input
   const inputId = useId();
 
   // HANLDER

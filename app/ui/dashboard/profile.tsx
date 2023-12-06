@@ -5,13 +5,9 @@ import { useState } from "react";
 import { UserIcon } from "@heroicons/react/24/outline";
 import { logout } from "@/app/lib/actions";
 import Button from "../button";
-import { useFormState } from "react-dom";
 
 export default function Profile() {
-  // DISPATCHER //
-  const [errorMessage, dispatch] = useFormState(logout, undefined);
-
-  // React state //
+  // REACTE STATE //
   const [profileToast, setProfileToast] = useState(false);
 
   return (
