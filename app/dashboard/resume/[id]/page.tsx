@@ -5,6 +5,7 @@ import formatPhoneNumber from "@/utils/formatPhoneNumber";
 import { PlusIcon } from "@heroicons/react/24/solid";
 import DebtButton from "@/app/ui/dashboard/resume/debtButton";
 import DebtCard from "@/app/ui/dashboard/resume/debtCard";
+import RefundButton from "@/app/ui/dashboard/resume/refundButton";
 
 export default async function Page({ params }: { params: { id: string } }) {
   const debtorId = params.id;
@@ -60,16 +61,10 @@ export default async function Page({ params }: { params: { id: string } }) {
 
         <h2 className="text-center my-4">Compte rendu financier</h2>
 
-        {debts.length &&
-          debts.map((debt) => <DebtCard key={debt.id} {...debt} />)}
+        {debts && debts.map((debt) => <DebtCard key={debt.id} {...debt} />)}
 
         {/* ADD REFUND BUTTON */}
-        <button
-          type="button"
-          className="flex justify-center items-center bg-primary-400 text-black p-2 rounded-lg hover:shadow-custom fixed bottom-20 sm:bottom-4 right-2 gap-2"
-        >
-          <PlusIcon className="w-[25px]" /> Remboursement
-        </button>
+        <RefundButton debtorId={debtorId} />
 
         {/* ADD DEBT BUTTON */}
         <DebtButton debtorId={debtorId} />
