@@ -1,17 +1,17 @@
 import { Dispatch, SetStateAction, useState } from "react";
-import Modale from "./modale";
+import Modale from "./modal";
 import Input from "../input";
 import Button from "../button";
 import { useFormState } from "react-dom";
 import { createDebt } from "@/app/lib/actions";
 
 type AddDebtModaleProps = {
-  modaleStateSetter: Dispatch<SetStateAction<boolean>>;
+  modalStateSetter: Dispatch<SetStateAction<boolean>>;
   debtorId: string;
 };
 
 export default function AddDebtModale({
-  modaleStateSetter,
+  modalStateSetter,
   debtorId,
 }: AddDebtModaleProps) {
   // DISPATCHER //
@@ -20,11 +20,11 @@ export default function AddDebtModale({
 
   // HANDLERS //
   const handleCancelClick = () => {
-    modaleStateSetter(false);
+    modalStateSetter(false);
   };
 
   // When we submit the form, we want to hide the modal if there's no errorMessage sent to the client
-  // Otherwise, the modale will stay open even if the request is successful
+  // Otherwise, the modal will stay open even if the request is successful
   const handleSubmit = () => {
     if (!errorMessage.message) handleCancelClick();
     else console.log(errorMessage);

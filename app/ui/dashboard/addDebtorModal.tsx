@@ -1,28 +1,28 @@
 import { Dispatch, SetStateAction, useState } from "react";
-import Modale from "./modale";
+import Modal from "./modal";
 import Input from "../input";
 import Button from "../button";
 import { useFormState } from "react-dom";
 import { createDebtor } from "@/app/lib/actions";
 
-type AddDebtorModaleProps = {
-  modaleStateSetter: Dispatch<SetStateAction<boolean>>;
+type AddDebtorModalProps = {
+  modalStateSetter: Dispatch<SetStateAction<boolean>>;
 };
 
-export default function AddDebtorModale({
-  modaleStateSetter,
-}: AddDebtorModaleProps) {
+export default function AddDebtorModal({
+  modalStateSetter,
+}: AddDebtorModalProps) {
   // DISPATCHER //
   const initialState = { message: null, errors: {} };
   const [errorMessage, dispatch] = useFormState(createDebtor, initialState);
 
   // HANDLERS //
   const handleCancelClick = () => {
-    modaleStateSetter(false);
+    modalStateSetter(false);
   };
 
   // When we submit the form, we want to hide the modal if there's no errorMessage sent to the client
-  // Otherwise, the modale will stay open even if the request is successful
+  // Otherwise, the modal will stay open even if the request is successful
   const handleSubmit = () => {
     if (!errorMessage.message) handleCancelClick()
     else console.log(errorMessage);
@@ -35,7 +35,7 @@ export default function AddDebtorModale({
   const [phone, setPhone] = useState("");
 
   return (
-    <Modale closeModal={handleCancelClick}>
+    <Modal closeModal={handleCancelClick}>
       <h1 className="text-center">Ajout d&apos;un débiteur</h1>
 
       <form className="flex flex-col items-center" action={dispatch} onSubmit={handleSubmit}>
@@ -80,6 +80,6 @@ export default function AddDebtorModale({
 
         <Button type="submit" className="w-1/2 mt-5">Valider</Button>
       </form>
-    </Modale>
+    </Modal>
   );
 }

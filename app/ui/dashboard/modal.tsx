@@ -2,7 +2,7 @@ import { LegacyRef, useEffect, useRef } from 'react';
 
 import { PlusIcon } from '@heroicons/react/24/solid';
 
-type ModaleProps = {
+type ModalProps = {
     closeModal?: () => void | null;
     children: React.ReactNode;
     notClosable?: boolean;
@@ -11,7 +11,7 @@ type ModaleProps = {
 
 // THIS IS A MODALE TEMPLATE //
 
-export default function Modale({ closeModal = () => null, children, notClosable = false, reference = null }: ModaleProps) {
+export default function Modal({ closeModal = () => null, children, notClosable = false, reference = null }: ModalProps) {
   // === REFERENCE === //
   const focusRef = useRef<HTMLButtonElement>(null);
 
