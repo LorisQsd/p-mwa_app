@@ -11,10 +11,11 @@ import clsx from "clsx";
 export default async function Dashboard() {
 
   const [ totalBalance ] = await Promise.all([fetchTotalBalance()])
+  const { total_debts: debts, total_refunds: refunds } = totalBalance
 
   // CAREFUL ! We need to fixed (2) on this calcul because numbers are float and there's a lack of precision
   // Issue without toFixed(2) : 40.30 - 15.00 = 22.299999999997
-  const calcTotalBalance = (totalBalance.total_debts - totalBalance.total_refunds).toFixed(2);
+  const calcTotalBalance = (Number(debts) - Number(refunds)).toFixed(2);
 
   return (
     
@@ -35,7 +36,7 @@ export default async function Dashboard() {
           </h2>
 
           {/* UI IMPROVMENTS TO MAKE HERE ! */}
-          {totalBalance ? (
+          {(Number(calcTotalBalance)) ? (
             <p className={clsx('mt-4 font-bold text-lg', Number(calcTotalBalance) > 0 ? "text-orange-400" : "text-green-400")}>{Number(calcTotalBalance) > 0 ? "-" : "+"} {Math.abs(Number(calcTotalBalance))} €</p>
           ) : (
             <p className="mt-4 italic">Aucune balance à afficher pour le moment...</p>

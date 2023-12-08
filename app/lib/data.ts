@@ -104,10 +104,14 @@ export async function fetchTotalBalance() {
       (
         SELECT COALESCE(SUM(amount), 0)
         FROM debts
+        WHERE debtor_id 
+          IN (SELECT id FROM debtors WHERE user_id = ${userId})
       ) AS total_debts,
       (
         SELECT COALESCE(SUM(amount), 0)
         FROM refunds
+        WHERE debtor_id 
+          IN (SELECT id FROM debtors WHERE user_id = ${userId})
       ) AS total_refunds;
     `;
 

@@ -40,6 +40,6 @@ export type Status = {
 }
 
 export type TotalBalance = {
-    total_debts: number;
-    total_refunds: number;
+    total_debts: string;
+    total_refunds: string;
 }
