@@ -38,8 +38,3 @@ export type Status = {
     id: string;
     name: string;
 }
-
-export type RemainingCapital = {
-    total_debts: string;
-    total_refunds: string;
-}
