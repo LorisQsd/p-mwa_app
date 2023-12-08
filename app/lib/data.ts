@@ -1,6 +1,6 @@
 import { sql } from "@vercel/postgres";
 import { unstable_noStore as noStore } from "next/cache";
-import { Debtor, Status, Debt, Refund } from "./definitions";
+import { Debtor, Status, Debt, Refund, TotalBalance } from "./definitions";
 import { auth } from "@/auth";
 
 export async function fetchDebtors() {
@@ -83,11 +83,41 @@ export async function fetchRefundsByDebtorId(id: string) {
               WHERE debtors.id = ${id}
           `;
 
-    const refunds = data.rows
+    const refunds = data.rows;
 
     return refunds;
   } catch (error) {
     console.error("Database Error:", error);
     throw new Error("Echec lors de la récupération d'un remboursement.");
+  }
+}
+
+export async function fetchTotalBalance() {
+  noStore();
+
+  try {
+    const session = await auth();
+    const userId = session?.user.id;
+
+    const data = await sql<TotalBalance>`
+        SELECT
+      (
+        SELECT COALESCE(SUM(amount), 0)
+        FROM debts
+      ) AS total_debts,
+      (
+        SELECT COALESCE(SUM(amount), 0)
+        FROM refunds
+      ) AS total_refunds;
+    `;
+
+    const totalBalance = data.rows[0];
+
+    return totalBalance;
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error(
+      "Echec lors de la récupération du total capital restant dû."
+    );
   }
 }

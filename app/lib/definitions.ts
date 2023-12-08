@@ -38,3 +38,8 @@ export type Status = {
     id: string;
     name: string;
 }
+
+export type TotalBalance = {
+    total_debts: number;
+    total_refunds: number;
+}

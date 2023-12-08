@@ -1,27 +1,23 @@
-"use client";
-
-import { useState } from "react";
-// === REACT ROUTER DOM === //
-import { createPortal } from "react-dom";
 import {
   ChartPieIcon,
-  CurrencyEuroIcon,
   ChartBarIcon,
-  PlusIcon,
+  CurrencyEuroIcon
 } from "@heroicons/react/24/solid";
-import AddDebtorModal from "@/app/ui/dashboard/addDebtorModal";
+import DebtorButton from "@/app/ui/dashboard/debtorButton";
+import { fetchTotalBalance } from "@/app/lib/data";
+import clsx from "clsx";
 
 // This component is in an overview because later, we want to avoid rendering pending issues with skeletons between each components.
-export default function Dashboard() {
-  const [modal, setModal] = useState(false);
+export default async function Dashboard() {
 
-  // Handlers //
-  const showModal = () => {
-    setModal(true);
-  }
+  const [ totalBalance ] = await Promise.all([fetchTotalBalance()])
+
+  // CAREFUL ! We need to fixed (2) on this calcul because numbers are float and there's a lack of precision
+  // Issue without toFixed(2) : 40.30 - 15.00 = 22.299999999997
+  const calcTotalBalance = (totalBalance.total_debts - totalBalance.total_refunds).toFixed(2);
 
   return (
-    <>
+    
       <div className="w-full text-black sm:grid sm:grid-cols-12 sm:gap-3 overflow-y-auto">
         <section className="w-full min-h-[200px] bg-slate-50 rounded-md p-4 mb-2 sm:mb-0 sm:col-span-6 sm:row-span-4">
           <h2 className="flex gap-2 items-center">
@@ -38,7 +34,12 @@ export default function Dashboard() {
             TOTAL Capital restant dû
           </h2>
 
-          <p className="italic">Feature à venir...</p>
+          {/* UI IMPROVMENTS TO MAKE HERE ! */}
+          {totalBalance ? (
+            <p className={clsx('mt-4 font-bold text-lg', Number(calcTotalBalance) > 0 ? "text-orange-400" : "text-green-400")}>{Number(calcTotalBalance) > 0 ? "-" : "+"} {Math.abs(Number(calcTotalBalance))} €</p>
+          ) : (
+            <p className="mt-4 italic">Aucune balance à afficher pour le moment...</p>
+          )}
         </section>
 
         <section className="w-full min-h-[250px] bg-slate-50 rounded-md p-4 sm:mb-0 mb-2 sm:col-span-6 sm:row-span-3">
@@ -56,20 +57,8 @@ export default function Dashboard() {
           <p className="italic">Feature à venir...</p>
         </section>
 
-        <button
-          type="button"
-          onClick={showModal}
-          className="w-[50px] bg-primary-400 shadow-lg hover:shadow-custom hover:scale-105 duration-300 rounded-full text-white p-1 fixed bottom-24 right-5 flex md:w-fit items-center gap-2 sm:bottom-5"
-        >
-          <PlusIcon className="w-[50px] md:w-[40px] text-black" />
-          <span className="hidden md:block md:mr-2 text-sm tracking-wider md:text-black">
-            Ajouter un débiteur
-          </span>
-        </button>
+        <DebtorButton/>
       </div>
-
-      {/* DISPLAY ADD DEBTOR MODALE */}
-      {modal && createPortal(<AddDebtorModal modalStateSetter={setModal} />, document.body)}
-    </>
+    
   );
 }
