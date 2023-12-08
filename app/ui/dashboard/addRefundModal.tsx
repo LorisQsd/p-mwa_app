@@ -3,7 +3,7 @@ import Modale from "./modal";
 import Input from "../input";
 import Button from "../button";
 import { useFormState } from "react-dom";
-import { createRefund } from "@/app/lib/actions";
+import { createRefund } from "@/app/lib/actions/refund";
 
 type AddRefundModalProps = {
   modalStateSetter: Dispatch<SetStateAction<boolean>>;

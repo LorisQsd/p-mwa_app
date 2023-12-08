@@ -9,7 +9,7 @@ import {
   EyeIcon,
 } from "@heroicons/react/24/outline";
 import { useFormStatus, useFormState } from "react-dom";
-import { createAccount } from "../lib/actions";
+import { createAccount } from "../lib/actions/user";
 import Loader from "./loader";
 
 export default function SignupForm() {

@@ -3,7 +3,7 @@ import Modal from "./modal";
 import Input from "../input";
 import Button from "../button";
 import { useFormState } from "react-dom";
-import { createDebtor } from "@/app/lib/actions";
+import { createDebtor } from "@/app/lib/actions/debtor";
 
 type AddDebtorModalProps = {
   modalStateSetter: Dispatch<SetStateAction<boolean>>;

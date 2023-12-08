@@ -11,7 +11,7 @@ import {
   ExclamationCircleIcon,
 } from "@heroicons/react/24/outline";
 import { useFormStatus, useFormState } from "react-dom";
-import { authenticate } from "../lib/actions";
+import { authenticate } from "../lib/actions/authentication";
 import Loader from "./loader";
 
 export default function SigninForm() {

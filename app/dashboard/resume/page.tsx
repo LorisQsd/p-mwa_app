@@ -1,4 +1,4 @@
-import { fetchDebtors } from "@/app/lib/data";
+import { fetchDebtors } from "@/app/lib/datas/debtor";
 import DebtorCard from "@/app/ui/dashboard/debtorCard";
 
 export default async function Resume() {

@@ -1,6 +1,6 @@
 import { Debtor, Status } from "@/app/lib/definitions";
 import Link from "next/link";
-import { deleteDebtor } from "@/app/lib/actions";
+import { deleteDebtor } from "@/app/lib/actions/debtor";
 import dayjs from "dayjs";
 import clsx from "clsx";
 import formatPhoneNumber from "@/utils/formatPhoneNumber";

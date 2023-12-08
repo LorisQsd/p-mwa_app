@@ -4,7 +4,7 @@ import {
   CurrencyEuroIcon,
 } from "@heroicons/react/24/solid";
 import DebtorButton from "@/app/ui/dashboard/debtorButton";
-import { fetchRemainingCapital } from "@/app/lib/data";
+import { fetchRemainingCapital } from "@/app/lib/datas/utility";
 import clsx from "clsx";
 
 // This component is in an overview because later, we want to avoid rendering pending issues with skeletons between each components.

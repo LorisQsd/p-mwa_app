@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { UserIcon } from "@heroicons/react/24/outline";
-import { logout } from "@/app/lib/actions";
+import { logout } from "@/app/lib/actions/authentication";
 import Button from "../button";
 
 export default function Profile() {

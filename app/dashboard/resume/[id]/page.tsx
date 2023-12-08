@@ -1,4 +1,6 @@
-import { fetchDebtsByDebtorId, fetchDebtorById, fetchRefundsByDebtorId } from "@/app/lib/data";
+import { fetchRefundsByDebtorId } from "@/app/lib/datas/refund";
+import { fetchDebtsByDebtorId } from "@/app/lib/datas/debt";
+import { fetchDebtorById } from "@/app/lib/datas/debtor";
 import { notFound } from "next/navigation";
 import dayjs from "dayjs";
 import formatPhoneNumber from "@/utils/formatPhoneNumber";
