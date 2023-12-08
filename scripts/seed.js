@@ -173,7 +173,7 @@ async function seedDebts(client) {
               name TEXT NOT NULL,
               amount DECIMAL(19,2) NOT NULL,
               date DATE NOT NULL,
-              debtor_id UUID NOT NULL REFERENCES "debtors" ("id")
+              debtor_id UUID NOT NULL REFERENCES "debtors" ("id") ON DELETE CASCADE
             );
           `;
 
@@ -197,7 +197,7 @@ async function seedRefunds(client) {
                 source TEXT NOT NULL,
                 amount DECIMAL(19,2) NOT NULL,
                 date DATE NOT NULL,
-                debtor_id UUID NOT NULL REFERENCES "debtors" ("id")
+                debtor_id UUID NOT NULL REFERENCES "debtors" ("id") ON DELETE CASCADE
               );
             `;
 
@@ -220,7 +220,7 @@ async function seedReminders(client) {
                 id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
                 comment TEXT NOT NULL,
                 date DATE NOT NULL,
-                debtor_id UUID NOT NULL REFERENCES "debtors" ("id")
+                debtor_id UUID NOT NULL REFERENCES "debtors" ("id") ON DELETE CASCADE
               );
             `;
 
