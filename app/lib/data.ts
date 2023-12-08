@@ -1,6 +1,6 @@
 import { sql } from "@vercel/postgres";
 import { unstable_noStore as noStore } from "next/cache";
-import { Debtor, Status, Debt } from "./definitions";
+import { Debtor, Status, Debt, Refund } from "./definitions";
 import { auth } from "@/auth";
 
 export async function fetchDebtors() {
@@ -41,14 +41,16 @@ export async function fetchDebtorById(id: string) {
               AND debtors.id = ${id}
           `;
 
-    return data.rows[0];
+    const debtor = data.rows[0];
+
+    return debtor;
   } catch (error) {
     console.error("Database Error:", error);
     throw new Error("Echec lors de la récupération des débiteurs.");
   }
 }
 
-export async function fetchDebtByDebtorId(id: string) {
+export async function fetchDebtsByDebtorId(id: string) {
   // Add noStore() here prevents the response from being cached
   // This is equivalent to fetch (..., {cache: 'no store'})
   noStore();
@@ -60,9 +62,32 @@ export async function fetchDebtByDebtorId(id: string) {
               WHERE debtors.id = ${id}
           `;
 
-    return data.rows;
+    const debts = data.rows;
+
+    return debts;
   } catch (error) {
     console.error("Database Error:", error);
     throw new Error("Echec lors de la récupération d'une dette.");
+  }
+}
+
+export async function fetchRefundsByDebtorId(id: string) {
+  // Add noStore() here prevents the response from being cached
+  // This is equivalent to fetch (..., {cache: 'no store'})
+  noStore();
+
+  try {
+    const data = await sql<Refund>`
+              SELECT debtors.id, refunds.debtor_id, source, amount, refunds.date FROM debtors
+              JOIN refunds ON debtors.id = refunds.debtor_id
+              WHERE debtors.id = ${id}
+          `;
+
+    const refunds = data.rows
+
+    return refunds;
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Echec lors de la récupération d'un remboursement.");
   }
 }

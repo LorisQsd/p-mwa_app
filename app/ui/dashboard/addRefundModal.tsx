@@ -3,7 +3,7 @@ import Modale from "./modal";
 import Input from "../input";
 import Button from "../button";
 import { useFormState } from "react-dom";
-// import action createRefund
+import { createRefund } from "@/app/lib/actions";
 
 type AddRefundModalProps = {
   modalStateSetter: Dispatch<SetStateAction<boolean>>;
@@ -16,7 +16,7 @@ export default function AddRefundModal({
 }: AddRefundModalProps) {
   // DISPATCHER //
   const initialState = { message: null, errors: {} };
-//   const [errorMessage, dispatch] = useFormState(createDebt, initialState);
+  const [errorMessage, dispatch] = useFormState(createRefund, initialState);
 
   // HANDLERS //
   const handleCancelClick = () => {
@@ -25,10 +25,10 @@ export default function AddRefundModal({
 
   // When we submit the form, we want to hide the modal if there's no errorMessage sent to the client
   // Otherwise, the modal will stay open even if the request is successful
-//   const handleSubmit = () => {
-//     if (!errorMessage.message) handleCancelClick();
-//     else console.log(errorMessage);
-//   };
+  const handleSubmit = () => {
+    if (!errorMessage.message) handleCancelClick();
+    else console.log(errorMessage);
+  };
 
   // REACT STATES //
   const [source, setSource] = useState("");
@@ -40,9 +40,9 @@ export default function AddRefundModal({
       <h1 className="text-center">Ajout d&apos;un remboursement</h1>
 
       <form
-        // action={dispatch}
+        action={dispatch}
         className="flex flex-col items-center"
-        // onSubmit={handleSubmit}
+        onSubmit={handleSubmit}
       >
         <Input
           label="* Source"

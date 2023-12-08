@@ -26,6 +26,14 @@ export type Debt = {
     debtor_id: string;
 }
 
+export type Refund = {
+    id: string;
+    source: string;
+    amount: number;
+    date: string;
+    debtor_id: string;
+}
+
 export type Status = {
     id: string;
     name: string;

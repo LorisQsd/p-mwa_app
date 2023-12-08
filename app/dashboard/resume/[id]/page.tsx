@@ -1,17 +1,20 @@
-import { fetchDebtByDebtorId, fetchDebtorById } from "@/app/lib/data";
+import { fetchDebtsByDebtorId, fetchDebtorById, fetchRefundsByDebtorId } from "@/app/lib/data";
 import { notFound } from "next/navigation";
 import dayjs from "dayjs";
 import formatPhoneNumber from "@/utils/formatPhoneNumber";
-import { PlusIcon } from "@heroicons/react/24/solid";
 import DebtButton from "@/app/ui/dashboard/resume/debtButton";
 import DebtCard from "@/app/ui/dashboard/resume/debtCard";
 import RefundButton from "@/app/ui/dashboard/resume/refundButton";
+import RefundCard from "@/app/ui/dashboard/resume/refundCard";
 
 export default async function Page({ params }: { params: { id: string } }) {
   const debtorId = params.id;
 
-  const debtor = await fetchDebtorById(debtorId);
-  const debts = await fetchDebtByDebtorId(debtorId);
+  const [ debtor, debts, refunds] = await Promise.all([
+    fetchDebtorById(debtorId),
+    fetchDebtsByDebtorId(debtorId),
+    fetchRefundsByDebtorId(debtorId)
+  ])
 
   if (!debtor) {
     return notFound();
@@ -62,6 +65,7 @@ export default async function Page({ params }: { params: { id: string } }) {
         <h2 className="text-center my-4">Compte rendu financier</h2>
 
         {debts && debts.map((debt) => <DebtCard key={debt.id} {...debt} />)}
+        {refunds && refunds.map((refund) => <RefundCard key={refund.id} {...refund} />)}
 
         {/* ADD REFUND BUTTON */}
         <RefundButton debtorId={debtorId} />
