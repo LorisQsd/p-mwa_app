@@ -1,6 +1,6 @@
 import { sql } from "@vercel/postgres";
 import { unstable_noStore as noStore } from "next/cache";
-import { Debtor, Status, Debt, Refund, TotalBalance } from "./definitions";
+import { Debtor, Status, Debt, Refund, RemainingCapital } from "./definitions";
 import { auth } from "@/auth";
 
 export async function fetchDebtors() {
@@ -92,14 +92,14 @@ export async function fetchRefundsByDebtorId(id: string) {
   }
 }
 
-export async function fetchTotalBalance() {
+export async function fetchRemainingCapital() {
   noStore();
 
   try {
     const session = await auth();
     const userId = session?.user.id;
 
-    const data = await sql<TotalBalance>`
+    const data = await sql<RemainingCapital>`
         SELECT
       (
         SELECT COALESCE(SUM(amount), 0)
@@ -115,9 +115,9 @@ export async function fetchTotalBalance() {
       ) AS total_refunds;
     `;
 
-    const totalBalance = data.rows[0];
+    const remainingCapital = data.rows[0];
 
-    return totalBalance;
+    return remainingCapital;
   } catch (error) {
     console.error("Database Error:", error);
     throw new Error(

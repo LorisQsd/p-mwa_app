@@ -39,7 +39,7 @@ export type Status = {
     name: string;
 }
 
-export type TotalBalance = {
+export type RemainingCapital = {
     total_debts: string;
     total_refunds: string;
 }
