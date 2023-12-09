@@ -95,3 +95,65 @@ export async function deleteDebt(id: string, debtorId: string) {
     };
   }
 }
+
+// === UPDATE DEBT === //
+const UpdateDebtEntries = z
+  .object({
+    id: z.string(),
+    name: z
+      .string({
+        invalid_type_error: "Veuillez entrer un libellé valide.",
+      })
+      .nonempty("Un libellé est requis."),
+    amount: z.coerce
+      .number({
+        invalid_type_error: "Veuillez enter un montant valide.",
+      })
+      .gt(0, { message: "Veuillez entrer un montant supérieur à 0 €." }),
+    date: z.string(),
+    debtor_id: z.string({
+      invalid_type_error: "Veuillez renseigner un debtor_id valide.",
+    }),
+  })
+  .omit({ id: true, date: true, debtor_id: true });
+
+export async function updateDebt(id: string, debtorId: string, prevState: DebtState, formData: FormData) {
+  // Validate form fields using Zod
+  const validatedFields = UpdateDebtEntries.safeParse({
+    name: formData.get("name"),
+    amount: formData.get("amount"),
+  });
+
+  // If form validation fails, return errors early. Otherwise, continue.
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      message:
+        "Certains champs ne sont pas valide. Le dette n'a pas pu être modifiée.",
+    };
+  }
+
+  // Preprare data for update it into the DB
+  const { name, amount } = validatedFields.data;
+
+  // Update into DB
+  try {
+    await sql`
+        UPDATE debts
+        SET name = ${name}, amount = ${amount}
+        WHERE id = ${id};
+      `;
+
+    console.log(
+      `La dette ${name} d'un montant de : ${amount} € a bien été modifiée.`
+    );
+  } catch (error) {
+    return {
+      message:
+        "Erreur de base de données: Echec lors de la modification d'une dette.",
+    };
+  }
+
+  revalidatePath(`/dashboard/resume/${debtorId}`);
+  redirect(`/dashboard/resume/${debtorId}`);
+}
