@@ -9,7 +9,7 @@ export async function fetchDebtsByDebtorId(id: string) {
 
   try {
     const data = await sql<Debt>`
-              SELECT debtors.id, debts.debtor_id, name, amount, debts.date FROM debtors
+              SELECT debts.id, debts.debtor_id, name, amount, debts.date FROM debtors
               JOIN debts ON debtors.id = debts.debtor_id
               WHERE debtors.id = ${id}
           `;

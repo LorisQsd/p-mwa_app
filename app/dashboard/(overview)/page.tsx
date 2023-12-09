@@ -35,6 +35,7 @@ export default async function Dashboard() {
         <p className="italic">Feature à venir...</p>
       </section>
 
+      {/* TOTAL REMAINING CAPITAL */}
       <section className="w-full min-h-[100px] bg-slate-50 rounded-md p-4 sm:mb-0 mb-2 sm:col-span-6 sm:row-span-1">
         <h2 className="flex gap-2 items-center">
           <CurrencyEuroIcon className="w-[40px]" />
@@ -61,7 +62,8 @@ export default async function Dashboard() {
         )}
       </section>
 
-      <section className="w-full min-h-[250px] bg-slate-50 rounded-md p-4 sm:mb-0 mb-2 sm:col-span-6 sm:row-span-3">
+      {/* DEBTORS LEADER BOARD */}
+      <section className="w-full min-h-[250px] bg-slate-50 rounded-md p-4 sm:mb-0 mb-2 sm:col-span-6 sm:row-span-3 overflow-auto">
         <h2 className="flex gap-2 items-center mb-2">
           <ChartBarIcon className="w-[40px]" />
           Classement des débiteurs

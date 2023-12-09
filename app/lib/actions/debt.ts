@@ -77,3 +77,21 @@ export async function createDebt(prevState: DebtState, formData: FormData) {
   revalidatePath(`/dashboard/resume/${debtor_id}`);
   redirect(`/dashboard/resume/${debtor_id}`);
 }
+
+// === DELETE DEBT === //
+export async function deleteDebt(id: string, debtorId: string) {
+  try {
+    await sql`
+        DELETE FROM debts
+        WHERE id=${id}
+        AND debtor_id=${debtorId};
+    `;
+
+    revalidatePath(`/dashboard/resume/${debtorId}`);
+  } catch (error) {
+    return {
+      message:
+        "Erreur de base de données: Echec lors de la suppression d'une dette.",
+    };
+  }
+}

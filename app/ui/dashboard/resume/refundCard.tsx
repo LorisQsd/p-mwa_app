@@ -5,7 +5,7 @@ export default function RefundCard({ source, amount, date } : Refund) {
     const formatedDate = dayjs(date.toString()).format("DD/MM/YYYY")
 
     return(
-        <div className="w-full bg-green-400 my-2 rounded-md py-2 px-4 flex flex-wrap justify-between text-black">
+        <article className="w-full bg-green-400 my-2 rounded-md p-6 flex flex-wrap justify-between text-black">
 
             <div className="flex flex-col justify-center items-center">
                 <h2>Source</h2>
@@ -21,6 +21,6 @@ export default function RefundCard({ source, amount, date } : Refund) {
                 <h2 className="text-center">Depuis le</h2>
                 <p>{formatedDate}</p>
             </div>
-        </div>
+        </article>
     )
 }
