@@ -96,3 +96,47 @@ export async function fetchBestDebtors(){
     );
   }
 }
+
+export async function fetchRemainingCapitalByDebtorId(debtorId: string){
+  noStore();
+
+  try {
+    const data = await sql<{remaining_capital: string}>`
+        SELECT
+          COALESCE(total_debts, 0) - COALESCE(total_refunds, 0) AS remaining_capital
+        FROM (
+          SELECT
+            debtors.id,
+            COALESCE(SUM(debts.amount), 0) AS total_debts
+          FROM
+            debtors
+          LEFT JOIN debts ON debtors.id = debts.debtor_id
+          WHERE
+            debtors.id = ${debtorId}
+          GROUP BY
+            debtors.id
+        ) AS debt_totals
+        LEFT JOIN (
+          SELECT
+            debtors.id,
+            COALESCE(SUM(refunds.amount), 0) AS total_refunds
+          FROM
+            debtors
+          LEFT JOIN refunds ON debtors.id = refunds.debtor_id
+          WHERE
+            debtors.id = ${debtorId}
+          GROUP BY
+            debtors.id
+        ) AS refund_totals ON debt_totals.id = refund_totals.id;
+    `;
+
+    const response = data.rows[0];
+
+    return response.remaining_capital;
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error(
+      "Echec lors de la récupération du total capital restant dû pour un débiteur."
+    );
+  }
+}

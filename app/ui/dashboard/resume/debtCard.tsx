@@ -38,7 +38,6 @@ export default function DebtCard({
   // HANDLER //
   // !! I could improve this behavior by handling it with skeletons later !! //
   const handleSubmit = () => {
-    console.log(errorMessage)
     if (!errorMessage.errors && !errorMessage.message) {
         // If there isn't any errMessage we can close the form
         setEditing(false);
@@ -81,7 +80,7 @@ export default function DebtCard({
 
           <div className="flex flex-col justify-center items-center">
             <h2>Montant</h2>
-            <p>{amount}</p>
+            <p>{amount} €</p>
           </div>
 
           <div className="flex flex-col justify-center items-center">

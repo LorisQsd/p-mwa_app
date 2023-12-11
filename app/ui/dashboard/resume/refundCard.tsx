@@ -88,11 +88,11 @@ export default function RefundCard({
 
           <div className="flex flex-col justify-center items-center">
             <h2>Montant</h2>
-            <p>{amount}</p>
+            <p>{amount} €</p>
           </div>
 
           <div className="flex flex-col justify-center items-center">
-            <h2 className="text-center">Depuis le</h2>
+            <h2 className="text-center">Éffectué le</h2>
             <p>{formatedDate}</p>
           </div>
         </>

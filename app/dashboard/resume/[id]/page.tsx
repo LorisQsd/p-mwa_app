@@ -1,6 +1,7 @@
 import { fetchRefundsByDebtorId } from "@/app/lib/datas/refund";
 import { fetchDebtsByDebtorId } from "@/app/lib/datas/debt";
 import { fetchDebtorById } from "@/app/lib/datas/debtor";
+import { fetchRemainingCapitalByDebtorId } from "@/app/lib/datas/utility";
 import { notFound } from "next/navigation";
 import dayjs from "dayjs";
 import formatPhoneNumber from "@/utils/formatPhoneNumber";
@@ -8,14 +9,16 @@ import DebtButton from "@/app/ui/dashboard/resume/debtButton";
 import DebtCard from "@/app/ui/dashboard/resume/debtCard";
 import RefundButton from "@/app/ui/dashboard/resume/refundButton";
 import RefundCard from "@/app/ui/dashboard/resume/refundCard";
+import clsx from "clsx";
 
 export default async function Page({ params }: { params: { id: string } }) {
   const debtorId = params.id;
 
-  const [ debtor, debts, refunds] = await Promise.all([
+  const [ debtor, debts, refunds, remainingCapital] = await Promise.all([
     fetchDebtorById(debtorId),
     fetchDebtsByDebtorId(debtorId),
-    fetchRefundsByDebtorId(debtorId)
+    fetchRefundsByDebtorId(debtorId),
+    fetchRemainingCapitalByDebtorId(debtorId),
   ])
 
   if (!debtor) {
@@ -66,6 +69,13 @@ export default async function Page({ params }: { params: { id: string } }) {
 
         <h2 className="text-center my-4">Compte rendu financier</h2>
 
+        {remainingCapital && 
+        (
+        <aside className={clsx("bg-slate-100 rounded-md text-black p-4 w-fit", Number(remainingCapital) >= 0 ? "text-orange-400" : "text-green-400")}>
+            <h2>{Number(remainingCapital) >= 0 ? "-" : "+"} {Math.abs(Number(remainingCapital))} €</h2>
+        </aside>
+
+        )}
         {debts && debts.map((debt) => <DebtCard key={debt.id} {...debt} />)}
         {refunds && refunds.map((refund) => <RefundCard key={refund.id} {...refund} />)}
 
