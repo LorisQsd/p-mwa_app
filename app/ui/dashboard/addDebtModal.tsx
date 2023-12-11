@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction, useState } from "react";
-import Modale from "./modal";
+import Modal from "./modal";
 import Input from "../input";
 import Button from "../button";
 import { useFormState } from "react-dom";
@@ -38,7 +38,7 @@ export default function AddDebtModal({
   const [amount, setAmount] = useState("");
 
   return (
-    <Modale closeModal={handleCancelClick}>
+    <Modal closeModal={handleCancelClick}>
       <h1 className="text-center">Ajout d&apos;une dette</h1>
 
       <form
@@ -68,6 +68,6 @@ export default function AddDebtModal({
           Valider
         </Button>
       </form>
-    </Modale>
+    </Modal>
   );
 }

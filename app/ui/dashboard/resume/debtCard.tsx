@@ -91,21 +91,6 @@ export default function DebtCard({
         </>
       )}
 
-      {/* <div className="flex flex-col justify-center items-center">
-        <h2>Raison</h2>
-        <p>{name}</p>
-      </div>
-
-      <div className="flex flex-col justify-center items-center">
-        <h2>Montant</h2>
-        <p>{amount}</p>
-      </div> 
-      
-      <div className="flex flex-col justify-center items-center">
-        <h2 className="text-center">Depuis le</h2>
-        <p>{formatedDate}</p>
-      </div> */}
-
       <div className="flex flex-col">
         {/* DELETE DEBT */}
         <form action={deleteDebtWithId}>

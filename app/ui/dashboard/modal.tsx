@@ -9,7 +9,7 @@ type ModalProps = {
     reference?: LegacyRef<HTMLDivElement>;
 }
 
-// THIS IS A MODALE TEMPLATE //
+// THIS IS A MODAL TEMPLATE //
 
 export default function Modal({ closeModal = () => null, children, notClosable = false, reference = null }: ModalProps) {
   // === REFERENCE === //
