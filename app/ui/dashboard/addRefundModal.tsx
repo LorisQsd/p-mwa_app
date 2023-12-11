@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction, useState } from "react";
-import Modale from "./modal";
+import Modal from "./modal";
 import Input from "../input";
 import Button from "../button";
 import { useFormState } from "react-dom";
@@ -14,9 +14,12 @@ export default function AddRefundModal({
   modalStateSetter,
   debtorId,
 }: AddRefundModalProps) {
+  // BIND TO ALLOW CREATE REFUND WITH DEBTOR ID //
+  const createRefundWithDebtorId = createRefund.bind(null, debtorId);
+
   // DISPATCHER //
   const initialState = { message: null, errors: {} };
-  const [errorMessage, dispatch] = useFormState(createRefund, initialState);
+  const [errorMessage, dispatch] = useFormState(createRefundWithDebtorId, initialState);
 
   // HANDLERS //
   const handleCancelClick = () => {
@@ -33,10 +36,9 @@ export default function AddRefundModal({
   // REACT STATES //
   const [source, setSource] = useState("");
   const [amount, setAmount] = useState("");
-  const [debtorIdState, setDebtorIdState] = useState(debtorId);
 
   return (
-    <Modale closeModal={handleCancelClick}>
+    <Modal closeModal={handleCancelClick}>
       <h1 className="text-center">Ajout d&apos;un remboursement</h1>
 
       <form
@@ -62,19 +64,10 @@ export default function AddRefundModal({
           onChange={setAmount}
         />
 
-        <Input
-          label="debtor_id"
-          isRequired
-          type="hidden"
-          name="debtor_id"
-          value={debtorIdState}
-          onChange={setDebtorIdState}
-        />
-
         <Button type="submit" className="w-1/2 mt-5">
           Valider
         </Button>
       </form>
-    </Modale>
+    </Modal>
   );
 }

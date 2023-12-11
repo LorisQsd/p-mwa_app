@@ -22,7 +22,7 @@ const refundSchema = z.object({
   debtor_id: z.string({
     invalid_type_error: "Veuillez renseigner un debtor_id valide",
   }),
-});
+}).omit({id: true, date: true, debtor_id: true});
 
 // === STATE === //
 export type RefundState = {
@@ -34,13 +34,11 @@ export type RefundState = {
 };
 
 // === CREATE REFUND === //
-const createRefundSchema = refundSchema.omit({ id: true, date: true });
-export async function createRefund(prevState: RefundState, formData: FormData) {
+export async function createRefund(debtorId: string, prevState: RefundState, formData: FormData) {
   // Validate form fields using Zod
-  const validatedFields = createRefundSchema.safeParse({
+  const validatedFields = refundSchema.safeParse({
     source: formData.get("source"),
     amount: formData.get("amount"),
-    debtor_id: formData.get("debtor_id"),
   });
 
   // If form validation fails, return errors early. Otherwise, continue.
@@ -53,7 +51,7 @@ export async function createRefund(prevState: RefundState, formData: FormData) {
   }
 
   // Preprare data for insertion into the DB
-  const { source, amount, debtor_id } = validatedFields.data;
+  const { source, amount } = validatedFields.data;
 
   // Insert into the DB
   try {
@@ -62,7 +60,7 @@ export async function createRefund(prevState: RefundState, formData: FormData) {
 
     await sql`
         INSERT INTO refunds (source, amount, debtor_id, date)
-        VALUES (${source}, ${amount}, ${debtor_id}, ${date});
+        VALUES (${source}, ${amount}, ${debtorId}, ${date});
       `;
 
     console.log(
@@ -75,16 +73,11 @@ export async function createRefund(prevState: RefundState, formData: FormData) {
     };
   }
 
-  revalidatePath(`/dashboard/resume/${debtor_id}`);
-  redirect(`/dashboard/resume/${debtor_id}`);
+  revalidatePath(`/dashboard/resume/${debtorId}`);
+  redirect(`/dashboard/resume/${debtorId}`);
 }
 
 // === UPDATE REFUND === //
-const updateRefundSchema = refundSchema.omit({
-  id: true,
-  date: true,
-  debtor_id: true,
-});
 export async function updateRefund(
   id: string,
   debtorId: string,
@@ -92,7 +85,7 @@ export async function updateRefund(
   formData: FormData
 ) {
   // Validate form fields using Zod
-  const validatedFields = updateRefundSchema.safeParse({
+  const validatedFields = refundSchema.safeParse({
     source: formData.get("source"),
     amount: formData.get("amount"),
   });

@@ -5,15 +5,15 @@ import Button from "../button";
 import { useFormState } from "react-dom";
 import { createDebt } from "@/app/lib/actions/debt";
 
-type AddDebtModaleProps = {
+type AddDebtModalProps = {
   modalStateSetter: Dispatch<SetStateAction<boolean>>;
   debtorId: string;
 };
 
-export default function AddDebtModale({
+export default function AddDebtModal({
   modalStateSetter,
   debtorId,
-}: AddDebtModaleProps) {
+}: AddDebtModalProps) {
   // BIND TO ALLOW CREATE DEBT WITH DEBTOR ID //
   const createDebtWithDebtorId = createDebt.bind(null, debtorId);
 
