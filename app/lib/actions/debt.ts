@@ -5,27 +5,26 @@ import { sql } from "@vercel/postgres";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 
-// === CREATE DEBT === //
-const CreateDebtEntries = z
-  .object({
-    id: z.string(),
-    name: z
-      .string({
-        invalid_type_error: "Veuillez entrer un libellé valide.",
-      })
-      .nonempty("Un libellé est requis."),
-    amount: z.coerce
-      .number({
-        invalid_type_error: "Veuillez enter un montant valide.",
-      })
-      .gt(0, { message: "Veuillez entrer un montant supérieur à 0 €." }),
-    date: z.string(),
-    debtor_id: z.string({
-      invalid_type_error: "Veuillez renseigner un debtor_id valide",
-    }),
-  })
-  .omit({ id: true, date: true });
+// VALIDATION SCHEMA //
+const debtSchema = z.object({
+  id: z.string(),
+  name: z
+    .string({
+      invalid_type_error: "Veuillez entrer un libellé valide.",
+    })
+    .nonempty("Un libellé est requis."),
+  amount: z.coerce
+    .number({
+      invalid_type_error: "Veuillez enter un montant valide.",
+    })
+    .gt(0, { message: "Veuillez entrer un montant supérieur à 0 €." }),
+  date: z.string(),
+  debtor_id: z.string({
+    invalid_type_error: "Veuillez renseigner un debtor_id valide",
+  }),
+});
 
+// STATE //
 export type DebtState = {
   errors?: {
     name?: string[];
@@ -34,9 +33,11 @@ export type DebtState = {
   message?: string | null;
 };
 
+// === CREATE DEBT === //
+const createDebtSchema = debtSchema.omit({ id: true, date: true });
 export async function createDebt(prevState: DebtState, formData: FormData) {
   // Validate form fields using Zod
-  const validatedFields = CreateDebtEntries.safeParse({
+  const validatedFields = createDebtSchema.safeParse({
     name: formData.get("name"),
     amount: formData.get("amount"),
     debtor_id: formData.get("debtor_id"),
@@ -78,48 +79,20 @@ export async function createDebt(prevState: DebtState, formData: FormData) {
   redirect(`/dashboard/resume/${debtor_id}`);
 }
 
-// === DELETE DEBT === //
-export async function deleteDebt(id: string, debtorId: string) {
-  try {
-    await sql`
-        DELETE FROM debts
-        WHERE id=${id}
-        AND debtor_id=${debtorId};
-    `;
-
-    revalidatePath(`/dashboard/resume/${debtorId}`);
-  } catch (error) {
-    return {
-      message:
-        "Erreur de base de données: Echec lors de la suppression d'une dette.",
-    };
-  }
-}
-
 // === UPDATE DEBT === //
-const UpdateDebtEntries = z
-  .object({
-    id: z.string(),
-    name: z
-      .string({
-        invalid_type_error: "Veuillez entrer un libellé valide.",
-      })
-      .nonempty("Un libellé est requis."),
-    amount: z.coerce
-      .number({
-        invalid_type_error: "Veuillez enter un montant valide.",
-      })
-      .gt(0, { message: "Veuillez entrer un montant supérieur à 0 €." }),
-    date: z.string(),
-    debtor_id: z.string({
-      invalid_type_error: "Veuillez renseigner un debtor_id valide.",
-    }),
-  })
-  .omit({ id: true, date: true, debtor_id: true });
-
-export async function updateDebt(id: string, debtorId: string, prevState: DebtState, formData: FormData) {
+const updateDebtSchema = debtSchema.omit({
+  id: true,
+  date: true,
+  debtor_id: true,
+});
+export async function updateDebt(
+  id: string,
+  debtorId: string,
+  prevState: DebtState,
+  formData: FormData
+) {
   // Validate form fields using Zod
-  const validatedFields = UpdateDebtEntries.safeParse({
+  const validatedFields = updateDebtSchema.safeParse({
     name: formData.get("name"),
     amount: formData.get("amount"),
   });
@@ -156,4 +129,22 @@ export async function updateDebt(id: string, debtorId: string, prevState: DebtSt
 
   revalidatePath(`/dashboard/resume/${debtorId}`);
   redirect(`/dashboard/resume/${debtorId}`);
+}
+
+// === DELETE DEBT === //
+export async function deleteDebt(id: string, debtorId: string) {
+  try {
+    await sql`
+        DELETE FROM debts
+        WHERE id=${id}
+        AND debtor_id=${debtorId};
+    `;
+
+    revalidatePath(`/dashboard/resume/${debtorId}`);
+  } catch (error) {
+    return {
+      message:
+        "Erreur de base de données: Echec lors de la suppression d'une dette.",
+    };
+  }
 }
