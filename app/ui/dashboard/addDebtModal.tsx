@@ -14,9 +14,12 @@ export default function AddDebtModale({
   modalStateSetter,
   debtorId,
 }: AddDebtModaleProps) {
+  // BIND TO ALLOW CREATE DEBT WITH DEBTOR ID //
+  const createDebtWithDebtorId = createDebt.bind(null, debtorId);
+
   // DISPATCHER //
   const initialState = { message: null, errors: {} };
-  const [errorMessage, dispatch] = useFormState(createDebt, initialState);
+  const [errorMessage, dispatch] = useFormState(createDebtWithDebtorId, initialState);
 
   // HANDLERS //
   const handleCancelClick = () => {
@@ -33,7 +36,6 @@ export default function AddDebtModale({
   // REACT STATES //
   const [name, setName] = useState("");
   const [amount, setAmount] = useState("");
-  const [debtorIdState, setDebtorIdState] = useState(debtorId);
 
   return (
     <Modale closeModal={handleCancelClick}>
@@ -60,15 +62,6 @@ export default function AddDebtModale({
           name="amount"
           value={amount}
           onChange={setAmount}
-        />
-
-        <Input
-          label="debtor_id"
-          isRequired
-          type="hidden"
-          name="debtor_id"
-          value={debtorIdState}
-          onChange={setDebtorIdState}
         />
 
         <Button type="submit" className="w-1/2 mt-5">

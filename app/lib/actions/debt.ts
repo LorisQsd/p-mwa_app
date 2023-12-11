@@ -6,23 +6,25 @@ import { redirect } from "next/navigation";
 import { z } from "zod";
 
 // === VALIDATION SCHEMA === //
-const debtSchema = z.object({
-  id: z.string(),
-  name: z
-    .string({
-      invalid_type_error: "Veuillez entrer un libellé valide.",
-    })
-    .nonempty("Un libellé est requis."),
-  amount: z.coerce
-    .number({
-      invalid_type_error: "Veuillez enter un montant valide.",
-    })
-    .gt(0, { message: "Veuillez entrer un montant supérieur à 0 €." }),
-  date: z.string(),
-  debtor_id: z.string({
-    invalid_type_error: "Veuillez renseigner un debtor_id valide",
-  }),
-});
+const debtSchema = z
+  .object({
+    id: z.string(),
+    name: z
+      .string({
+        invalid_type_error: "Veuillez entrer un libellé valide.",
+      })
+      .nonempty("Un libellé est requis."),
+    amount: z.coerce
+      .number({
+        invalid_type_error: "Veuillez enter un montant valide.",
+      })
+      .gt(0, { message: "Veuillez entrer un montant supérieur à 0 €." }),
+    date: z.string(),
+    debtor_id: z.string({
+      invalid_type_error: "Veuillez renseigner un debtor_id valide",
+    }),
+  })
+  .omit({ id: true, date: true, debtor_id: true });
 
 // === STATE === //
 export type DebtState = {
@@ -34,13 +36,15 @@ export type DebtState = {
 };
 
 // === CREATE DEBT === //
-const createDebtSchema = debtSchema.omit({ id: true, date: true });
-export async function createDebt(prevState: DebtState, formData: FormData) {
+export async function createDebt(
+  debtorId: string,
+  prevState: DebtState,
+  formData: FormData
+) {
   // Validate form fields using Zod
-  const validatedFields = createDebtSchema.safeParse({
+  const validatedFields = debtSchema.safeParse({
     name: formData.get("name"),
     amount: formData.get("amount"),
-    debtor_id: formData.get("debtor_id"),
   });
 
   // If form validation fails, return errors early. Otherwise, continue.
@@ -53,7 +57,7 @@ export async function createDebt(prevState: DebtState, formData: FormData) {
   }
 
   // Preprare data for insertion into the DB
-  const { name, amount, debtor_id } = validatedFields.data;
+  const { name, amount } = validatedFields.data;
 
   // Insert into the DB
   try {
@@ -62,7 +66,7 @@ export async function createDebt(prevState: DebtState, formData: FormData) {
 
     await sql`
         INSERT INTO debts (name, amount, debtor_id, date)
-        VALUES (${name}, ${amount}, ${debtor_id}, ${date});
+        VALUES (${name}, ${amount}, ${debtorId}, ${date});
       `;
 
     console.log(
@@ -75,16 +79,11 @@ export async function createDebt(prevState: DebtState, formData: FormData) {
     };
   }
 
-  revalidatePath(`/dashboard/resume/${debtor_id}`);
-  redirect(`/dashboard/resume/${debtor_id}`);
+  revalidatePath(`/dashboard/resume/${debtorId}`);
+  redirect(`/dashboard/resume/${debtorId}`);
 }
 
 // === UPDATE DEBT === //
-const updateDebtSchema = debtSchema.omit({
-  id: true,
-  date: true,
-  debtor_id: true,
-});
 export async function updateDebt(
   id: string,
   debtorId: string,
@@ -92,7 +91,7 @@ export async function updateDebt(
   formData: FormData
 ) {
   // Validate form fields using Zod
-  const validatedFields = updateDebtSchema.safeParse({
+  const validatedFields = debtSchema.safeParse({
     name: formData.get("name"),
     amount: formData.get("amount"),
   });
