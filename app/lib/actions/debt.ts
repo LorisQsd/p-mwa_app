@@ -5,7 +5,7 @@ import { sql } from "@vercel/postgres";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 
-// VALIDATION SCHEMA //
+// === VALIDATION SCHEMA === //
 const debtSchema = z.object({
   id: z.string(),
   name: z
@@ -24,7 +24,7 @@ const debtSchema = z.object({
   }),
 });
 
-// STATE //
+// === STATE === //
 export type DebtState = {
   errors?: {
     name?: string[];
@@ -48,7 +48,7 @@ export async function createDebt(prevState: DebtState, formData: FormData) {
     return {
       errors: validatedFields.error.flatten().fieldErrors,
       message:
-        "Certains champs ne sont pas valide. Le dette n'a pas pu être créé.",
+        "Certains champs ne sont pas valide. La dette n'a pas pu être créé.",
     };
   }
 
@@ -102,7 +102,7 @@ export async function updateDebt(
     return {
       errors: validatedFields.error.flatten().fieldErrors,
       message:
-        "Certains champs ne sont pas valide. Le dette n'a pas pu être modifiée.",
+        "Certains champs ne sont pas valide. La dette n'a pas pu être modifiée.",
     };
   }
 
