@@ -32,9 +32,11 @@ export default async function Page({ params }: { params: { id: string } }) {
   // FORMAT DATES //
   const dateFormat = "DD/MM/YYYY";
   const formatedDate = dayjs(debtor.date.toString()).format(dateFormat);
-  const formatedNextReminder = dayjs(lastReminder.toString()).format(
-    dateFormat
-  );
+  // We want to format the next reminder only if we get a reminder
+  const formatedNextReminder =
+    lastReminder?.date &&
+    dayjs(lastReminder.date.toString()).format(dateFormat);
+
   // Better naming :
   const statusName = debtor.name;
 
@@ -89,7 +91,7 @@ export default async function Page({ params }: { params: { id: string } }) {
                   <p>{formatedNextReminder}</p>
                 </>
               ) : (
-                <p className="text-italic">Pas encore de relance prévue</p>
+                <p className="text-center w-full italic">Pas encore de relance prévue</p>
               )}
             </div>
             <button
