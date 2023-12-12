@@ -6,32 +6,42 @@ import { redirect } from "next/navigation";
 import { z } from "zod";
 
 // === VALIDATION SCHEMA === //
-const reminderSchema = z.object({
-  id: z.string(),
-  comment: z
-    .string({
-      invalid_type_error: "Veuillez entrer un libellé valide.",
-    })
-    .nonempty("Un libellé est requis."),
-  date: z.string(),
-  debtor_id: z.string({
-    invalid_type_error: "Veuillez renseigner un debtor_id valide",
-  }),
-}).omit({id: true, date: true, debtor_id: true});
+const reminderSchema = z
+  .object({
+    id: z.string(),
+    comment: z
+      .string({
+        invalid_type_error: "Veuillez entrer un libellé valide.",
+      })
+      .nonempty("Un libellé est requis."),
+    date: z
+      .string({ invalid_type_error: "Veuillez entrer une date valide" })
+      .nonempty({ message: "Une date de notification est requise." }),
+    debtor_id: z.string({
+      invalid_type_error: "Veuillez renseigner un debtor_id valide",
+    }),
+  })
+  .omit({ id: true, debtor_id: true });
 
 // === STATE === //
 export type ReminderState = {
   errors?: {
     comment?: string[];
+    date?: string[];
   };
   message?: string | null;
 };
 
 // === CREATE REMINDER === //
-export async function createReminder(debtorId: string, prevState: ReminderState, formData: FormData) {
+export async function createReminder(
+  debtorId: string,
+  prevState: ReminderState,
+  formData: FormData
+) {
   // Validate form fields using Zod
   const validatedFields = reminderSchema.safeParse({
     comment: formData.get("comment"),
+    date: formData.get("date"),
   });
 
   // If form validation fails, return errors early. Otherwise, continue.
@@ -44,21 +54,16 @@ export async function createReminder(debtorId: string, prevState: ReminderState,
   }
 
   // Preprare data for insertion into the DB
-  const { comment } = validatedFields.data;
+  const { comment, date } = validatedFields.data;
 
   // Insert into the DB
   try {
-    // We want the date to be in ISO Format
-    const date = new Date().toISOString();
-
     await sql`
         INSERT INTO reminders (comment, debtor_id, date)
         VALUES (${comment}, ${debtorId}, ${date});
       `;
 
-    console.log(
-      `Le rappel ${comment} a bien été créé.`
-    );
+    console.log(`Le rappel ${comment} a bien été créé.`);
   } catch (error) {
     return {
       message:
@@ -80,6 +85,7 @@ export async function updateReminder(
   // Validate form fields using Zod
   const validatedFields = reminderSchema.safeParse({
     comment: formData.get("comment"),
+    date: formData.get("date"),
   });
 
   // If form validation fails, return errors early. Otherwise, continue.
@@ -92,19 +98,17 @@ export async function updateReminder(
   }
 
   // Preprare data for update it into the DB
-  const { comment } = validatedFields.data;
+  const { comment, date } = validatedFields.data;
 
   // Update into DB
   try {
     await sql`
         UPDATE reminders
-        SET comment = ${comment}
+        SET comment = ${comment}, date = ${date}
         WHERE id = ${id};
       `;
 
-    console.log(
-      `Le rappel ${comment} a bien été modifié.`
-    );
+    console.log(`Le rappel ${comment} a bien été modifié.`);
   } catch (error) {
     return {
       message:
