@@ -83,7 +83,7 @@ export default async function Page({ params }: { params: { id: string } }) {
           >
             <h2>
               {Number(remainingCapital) >= 0 ? "-" : "+"}{" "}
-              {Math.abs(Number(remainingCapital))} €
+              {Math.abs(Number(remainingCapital)).toFixed(2)} €
             </h2>
           </aside>
         )}

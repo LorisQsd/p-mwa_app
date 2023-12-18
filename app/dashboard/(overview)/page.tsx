@@ -53,7 +53,7 @@ export default async function Dashboard() {
             )}
           >
             {Number(calcTotalBalance) > 0 ? "-" : "+"}{" "}
-            {Math.abs(Number(calcTotalBalance))} €
+            {Math.abs(Number(calcTotalBalance)).toFixed(2)} €
           </p>
         ) : (
           <p className="mt-4 italic">
