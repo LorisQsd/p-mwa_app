@@ -11,7 +11,7 @@ import RefundButton from "@/app/ui/dashboard/resume/refundButton";
 import RefundCard from "@/app/ui/dashboard/resume/refundCard";
 import ReminderButton from "@/app/ui/dashboard/resume/reminderButton";
 import clsx from "clsx";
-import DebtorInformationSection from "@/app/ui/dashboard/resume/DebtorInformationSection";
+  import DebtorInformationSection from "@/app/ui/dashboard/resume/debtorInformationSection";
 
 export default async function Page({ params }: { params: { id: string } }) {
   const debtorId = params.id;

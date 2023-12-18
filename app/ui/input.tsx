@@ -41,7 +41,7 @@ export default function Input({
 
   return (
     <div
-      className={clsx(`relative ${className}`, { hidden: type === "hidden" })}
+      className={clsx(`relative mb-1 ${className}`, { hidden: type === "hidden" })}
     >
       <label
         htmlFor={inputId}
