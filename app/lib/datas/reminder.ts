@@ -26,3 +26,25 @@ export async function fetchNextReminderByDebtor(id: string) {
     throw new Error("Echec lors de la récupération d'une date de relance.");
   }
 }
+
+export async function fetchRemindersByDebtor(id: string) {
+  // Add noStore() here prevents the response from being cached
+  // This is equivalent to fetch (..., {cache: 'no store'})
+  noStore();
+
+  try {
+    const data = await sql<Reminder>`
+            SELECT reminders.date, reminders.comment FROM debtors
+                JOIN reminders ON debtors.id = reminders.debtor_id
+                WHERE debtors.id = ${id}
+                ORDER BY reminders.date DESC;
+          `;
+
+    const reminders = data.rows;
+
+    return reminders;
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Echec lors de la récupération des relances pour un débiteur.");
+  }
+}

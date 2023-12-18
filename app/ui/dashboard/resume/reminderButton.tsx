@@ -21,7 +21,7 @@ export default function ReminderButton({ debtorId }: { debtorId: string }) {
       <button
         onClick={() => setModal(true)}
         type="button"
-        className="flex justify-center items-center bg-primary-400 text-black p-2 rounded-lg hover:shadow-custom mx-auto gap-2 text-sm duration-300"
+        className="flex justify-center items-center bg-primary-400 text-black p-2 rounded-lg hover:shadow-custom mx-auto gap-2 text-sm duration-300 mt-4"
       >
         Actualiser la relance
         <ChevronDoubleRightIcon className="w-[20px]" />

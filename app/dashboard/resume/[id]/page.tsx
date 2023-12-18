@@ -2,7 +2,10 @@ import { fetchRefundsByDebtorId } from "@/app/lib/datas/refund";
 import { fetchDebtsByDebtorId } from "@/app/lib/datas/debt";
 import { fetchDebtorById } from "@/app/lib/datas/debtor";
 import { fetchRemainingCapitalByDebtorId } from "@/app/lib/datas/utility";
-import { fetchNextReminderByDebtor } from "@/app/lib/datas/reminder";
+import {
+  fetchNextReminderByDebtor,
+  fetchRemindersByDebtor,
+} from "@/app/lib/datas/reminder";
 import { notFound } from "next/navigation";
 import dayjs from "dayjs";
 import DebtButton from "@/app/ui/dashboard/resume/debtButton";
@@ -12,17 +15,19 @@ import RefundCard from "@/app/ui/dashboard/resume/refundCard";
 import ReminderButton from "@/app/ui/dashboard/resume/reminderButton";
 import clsx from "clsx";
 import DebtorInformationSection from "@/app/ui/dashboard/resume/debtorInformationSection";
+import ReminderHistory from "@/app/ui/dashboard/resume/reminderHistory";
 
 export default async function Page({ params }: { params: { id: string } }) {
   const debtorId = params.id;
 
-  const [debtor, debts, refunds, remainingCapital, lastReminder] =
+  const [debtor, debts, refunds, remainingCapital, lastReminder, reminders] =
     await Promise.all([
       fetchDebtorById(debtorId),
       fetchDebtsByDebtorId(debtorId),
       fetchRefundsByDebtorId(debtorId),
       fetchRemainingCapitalByDebtorId(debtorId),
       fetchNextReminderByDebtor(debtorId),
+      fetchRemindersByDebtor(debtorId),
     ]);
 
   if (!debtor) {
@@ -41,7 +46,7 @@ export default async function Page({ params }: { params: { id: string } }) {
       <div className="w-full overflow-y-auto pr-2">
         <div className="md:flex gap-4 items-start">
           {/* DEBTOR INFORMATIONS SECTION */}
-          <DebtorInformationSection {...debtor} debtorId = {debtorId} />
+          <DebtorInformationSection {...debtor} debtorId={debtorId} />
 
           {/* REMINDERS SECTION */}
           <section className="w-full bg-slate-100 rounded-md text-black p-4 max-w-[600px] mx-auto">
@@ -59,12 +64,7 @@ export default async function Page({ params }: { params: { id: string } }) {
                 </p>
               )}
             </div>
-            <button
-              type="button"
-              className="rhd italic text-sm mb-4 text-end w-full hover:underline"
-            >
-              Voir plus
-            </button>
+            <ReminderHistory reminders={reminders}  />
 
             <ReminderButton debtorId={debtorId} />
           </section>
