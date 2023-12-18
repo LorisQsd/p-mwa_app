@@ -5,13 +5,13 @@ import { fetchRemainingCapitalByDebtorId } from "@/app/lib/datas/utility";
 import { fetchNextReminderByDebtor } from "@/app/lib/datas/reminder";
 import { notFound } from "next/navigation";
 import dayjs from "dayjs";
-import formatPhoneNumber from "@/utils/formatPhoneNumber";
 import DebtButton from "@/app/ui/dashboard/resume/debtButton";
 import DebtCard from "@/app/ui/dashboard/resume/debtCard";
 import RefundButton from "@/app/ui/dashboard/resume/refundButton";
 import RefundCard from "@/app/ui/dashboard/resume/refundCard";
 import ReminderButton from "@/app/ui/dashboard/resume/reminderButton";
 import clsx from "clsx";
+import DebtorInformationSection from "@/app/ui/dashboard/resume/DebtorInformationSection";
 
 export default async function Page({ params }: { params: { id: string } }) {
   const debtorId = params.id;
@@ -31,7 +31,6 @@ export default async function Page({ params }: { params: { id: string } }) {
 
   // FORMAT DATES //
   const dateFormat = "DD/MM/YYYY";
-  const formatedDate = dayjs(debtor.date.toString()).format(dateFormat);
   // We want to format the next reminder only if we get a reminder
   const formatedNextReminder =
     lastReminder?.date &&
@@ -45,40 +44,7 @@ export default async function Page({ params }: { params: { id: string } }) {
       <div className="w-full overflow-y-auto pr-2">
         <div className="md:flex gap-4 items-start">
           {/* DEBTOR INFORMATIONS SECTION */}
-          <section className="w-full bg-slate-100 rounded-md text-black p-4 max-w-[600px] mx-auto mb-4">
-            <h2 className="text-center mb-4">Informations du débiteur</h2>
-
-            <div className="flex justify-between mb-2">
-              <p className="font-bold">Nom</p>
-              <p>
-                {debtor.lastname} {debtor.firstname}
-              </p>
-            </div>
-
-            {debtor.email && (
-              <div className="flex justify-between mb-2">
-                <p className="font-bold">Email</p>
-                <p>{debtor.email}</p>
-              </div>
-            )}
-
-            {debtor.phone && (
-              <div className="flex justify-between mb-2">
-                <p className="font-bold">Téléphone</p>
-                <p>{formatPhoneNumber(debtor.phone)}</p>
-              </div>
-            )}
-
-            <div className="flex justify-between mb-2">
-              <p className="font-bold">Débiteur depuis le</p>
-              <p>{formatedDate}</p>
-            </div>
-
-            <div className="flex justify-between mb-2">
-              <p className="font-bold">Status</p>
-              <p>{statusName}</p>
-            </div>
-          </section>
+          <DebtorInformationSection {...debtor} />
 
           {/* REMINDERS SECTION */}
           <section className="w-full bg-slate-100 rounded-md text-black p-4 max-w-[600px] mx-auto">
@@ -91,7 +57,9 @@ export default async function Page({ params }: { params: { id: string } }) {
                   <p>{formatedNextReminder}</p>
                 </>
               ) : (
-                <p className="text-center w-full italic">Pas encore de relance prévue</p>
+                <p className="text-center w-full italic">
+                  Pas encore de relance prévue
+                </p>
               )}
             </div>
             <button
