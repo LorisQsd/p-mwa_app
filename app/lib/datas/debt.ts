@@ -12,6 +12,7 @@ export async function fetchDebtsByDebtorId(id: string) {
               SELECT debts.id, debts.debtor_id, name, amount, debts.date FROM debtors
               JOIN debts ON debtors.id = debts.debtor_id
               WHERE debtors.id = ${id}
+              ORDER BY debts.date DESC;
           `;
 
     const debts = data.rows;
