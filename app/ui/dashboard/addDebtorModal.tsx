@@ -2,7 +2,7 @@ import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import Modal from "./modal";
 import Input from "../input";
 import Button from "../button";
-import { useFormState } from "react-dom";
+import { useFormState, useFormStatus } from "react-dom";
 import { createDebtor } from "@/app/lib/actions/debtor";
 
 type AddDebtorModalProps = {
@@ -83,10 +83,22 @@ export default function AddDebtorModal({
           errMessage={errorMessage?.errors?.phone}
         />
 
-        <Button type="submit" className="w-1/2 mt-5">
-          Valider
-        </Button>
+        <SubmitButton />
       </form>
     </Modal>
+  );
+}
+
+function SubmitButton() {
+  const { pending } = useFormStatus();
+
+  return (
+    <Button
+      type="submit"
+      className="w-1/2 mt-5"
+      pending={pending}
+    >
+      Valider
+    </Button>
   );
 }

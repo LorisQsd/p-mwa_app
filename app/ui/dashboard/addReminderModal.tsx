@@ -2,7 +2,7 @@ import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import Modal from "./modal";
 import Input from "../input";
 import Button from "../button";
-import { useFormState } from "react-dom";
+import { useFormState, useFormStatus } from "react-dom";
 import { createReminder } from "@/app/lib/actions/reminders";
 
 type AddReminderModalProps = {
@@ -65,10 +65,22 @@ export default function AddReminderModal({
           onChange={setDate}
         />
 
-        <Button type="submit" className="w-1/2 mt-5">
-          Valider
-        </Button>
+        <SubmitButton />
       </form>
     </Modal>
+  );
+}
+
+function SubmitButton() {
+  const { pending } = useFormStatus();
+
+  return (
+    <Button
+      type="submit"
+      className="w-1/2 mt-5"
+      pending={pending}
+    >
+      Valider
+    </Button>
   );
 }

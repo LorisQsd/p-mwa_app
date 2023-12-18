@@ -8,7 +8,7 @@ import { Debtor, Status } from "@/app/lib/definitions";
 import Input from "../../input";
 import Button from "../../button";
 import { updateDebtor } from "@/app/lib/actions/debtor";
-import { useFormState } from "react-dom";
+import { useFormState, useFormStatus } from "react-dom";
 
 export default function DebtorInformationSection({
   debtorId,
@@ -104,9 +104,7 @@ export default function DebtorInformationSection({
             errMessage={errorMessage?.errors?.phone}
           />
 
-          <Button type="submit" className="mx-auto block mt-2">
-            Valider
-          </Button>
+          <SubmitButton />
         </form>
       ) : (
         <>
@@ -143,5 +141,15 @@ export default function DebtorInformationSection({
         </>
       )}
     </section>
+  );
+}
+
+function SubmitButton() {
+  const { pending } = useFormStatus();
+
+  return (
+    <Button type="submit" className="mx-auto block mt-2" pending={pending}>
+      Valider
+    </Button>
   );
 }
