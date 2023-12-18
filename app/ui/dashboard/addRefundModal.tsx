@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import Modal from "./modal";
 import Input from "../input";
 import Button from "../button";
@@ -19,19 +19,23 @@ export default function AddRefundModal({
 
   // DISPATCHER //
   const initialState = { message: null, errors: {} };
-  const [errorMessage, dispatch] = useFormState(createRefundWithDebtorId, initialState);
+  const [errorMessage, dispatch] = useFormState(
+    createRefundWithDebtorId,
+    initialState
+  );
 
   // HANDLERS //
   const handleCancelClick = () => {
     modalStateSetter(false);
   };
+  // We want to close the form with a useEffect
+  // Once the form is sent, we want to check whether there are messages or errors
+  // If not, we can close the form by setting its state to false
+  useEffect(() => {
+    if (errorMessage?.message || errorMessage?.errors) return;
 
-  // When we submit the form, we want to hide the modal if there's no errorMessage sent to the client
-  // Otherwise, the modal will stay open even if the request is successful
-  const handleSubmit = () => {
-    if (!errorMessage.message) handleCancelClick();
-    else console.log(errorMessage);
-  };
+    modalStateSetter(false);
+  }, [errorMessage, modalStateSetter]);
 
   // REACT STATES //
   const [source, setSource] = useState("");
@@ -41,11 +45,7 @@ export default function AddRefundModal({
     <Modal closeModal={handleCancelClick}>
       <h1 className="text-center">Ajout d&apos;un remboursement</h1>
 
-      <form
-        action={dispatch}
-        className="flex flex-col items-center"
-        onSubmit={handleSubmit}
-      >
+      <form action={dispatch} className="flex flex-col items-center">
         <Input
           label="* Source"
           isRequired

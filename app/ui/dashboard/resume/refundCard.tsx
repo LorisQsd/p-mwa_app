@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Refund } from "@/app/lib/definitions";
 import dayjs from "dayjs";
 import { TrashIcon, PencilSquareIcon } from "@heroicons/react/24/solid";
@@ -38,16 +38,14 @@ export default function RefundCard({
   // FORMATED DATE //
   const formatedDate = dayjs(date.toString()).format("DD/MM/YYYY");
 
-  // HANDLER //
-  // !! I could improve this behavior by handling it with skeletons later !! //
-  const handleSubmit = () => {
-    console.log(errorMessage);
-    if (!errorMessage.errors && !errorMessage.message) {
-      // If there isn't any errMessage we can close the form
-      setEditing(false);
-      // It will rerender the component and display content 'cause editing will be false
-    }
-  };
+  // We want to close the form with a useEffect
+  // Once the form is sent, we want to check whether there are messages or errors
+  // If not, we can close the form by setting its state to false
+  useEffect(() => {
+    if (errorMessage?.message || errorMessage?.errors) return;
+
+    setEditing(false);
+  }, [errorMessage]);
 
   return (
     <article className="w-full bg-green-400 my-2 rounded-md p-6 flex flex-wrap justify-between text-black">
@@ -55,7 +53,6 @@ export default function RefundCard({
         <form
           action={dispatch}
           className="flex gap-2 items-center justify-between grow mr-4"
-          onSubmit={handleSubmit}
         >
           <Input
             isRequired

@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import Modal from "./modal";
 import Input from "../input";
 import Button from "../button";
@@ -21,12 +21,14 @@ export default function AddDebtorModal({
     modalStateSetter(false);
   };
 
-  // When we submit the form, we want to hide the modal if there's no errorMessage sent to the client
-  // Otherwise, the modal will stay open even if the request is successful
-  const handleSubmit = () => {
-    if (!errorMessage.message) handleCancelClick()
-    else console.log(errorMessage);
-  }
+  // We want to close the form with a useEffect
+  // Once the form is sent, we want to check whether there are messages or errors
+  // If not, we can close the form by setting its state to false
+  useEffect(() => {
+    if (errorMessage?.message || errorMessage?.errors) return;
+
+    modalStateSetter(false);
+  }, [errorMessage, modalStateSetter]);
 
   // REACT STATES //
   const [lastname, setLastname] = useState("");
@@ -38,26 +40,27 @@ export default function AddDebtorModal({
     <Modal closeModal={handleCancelClick}>
       <h1 className="text-center">Ajout d&apos;un débiteur</h1>
 
-      <form className="flex flex-col items-center" action={dispatch} onSubmit={handleSubmit}>
+      <form className="flex flex-col items-center" action={dispatch}>
         <div className="flex gap-4">
-        <Input
-          label="* Nom"
-          isRequired
-          type="text"
-          name="lastname"
-          value={lastname}
-          onChange={setLastname}
-        />
+          <Input
+            label="* Nom"
+            isRequired
+            type="text"
+            name="lastname"
+            value={lastname}
+            onChange={setLastname}
+            errMessage={errorMessage?.errors?.lastname}
+          />
 
-        <Input
-          label="* Prénom"
-          isRequired
-          type="text"
-          name="firstname"
-          value={firstname}
-          onChange={setFirstname}
-        />
-
+          <Input
+            label="* Prénom"
+            isRequired
+            type="text"
+            name="firstname"
+            value={firstname}
+            onChange={setFirstname}
+            errMessage={errorMessage?.errors?.firstname}
+          />
         </div>
 
         <Input
@@ -67,6 +70,7 @@ export default function AddDebtorModal({
           className="w-full"
           value={email}
           onChange={setEmail}
+          errMessage={errorMessage?.errors?.email}
         />
 
         <Input
@@ -76,9 +80,12 @@ export default function AddDebtorModal({
           className="w-full"
           value={phone}
           onChange={setPhone}
+          errMessage={errorMessage?.errors?.phone}
         />
 
-        <Button type="submit" className="w-1/2 mt-5">Valider</Button>
+        <Button type="submit" className="w-1/2 mt-5">
+          Valider
+        </Button>
       </form>
     </Modal>
   );

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Debt } from "@/app/lib/definitions";
 import dayjs from "dayjs";
 import { TrashIcon, PencilSquareIcon } from "@heroicons/react/24/solid";
@@ -19,11 +19,11 @@ export default function DebtCard({
   // BIND TO ALLOW DELETE DEBT ACTION //
   const deleteDebtWithId = deleteDebt.bind(null, id, debtorId);
   // BIND TO ALLOW UPDATE DEBT ACTION //
-  const updateDebtWithId = updateDebt.bind(null, id, debtorId)
+  const updateDebtWithId = updateDebt.bind(null, id, debtorId);
 
   // FORM STATE TO SEND IT //
-  const initialState = {message: null, errors: {}};
-  const [errorMessage, dispatch] = useFormState(updateDebtWithId, initialState)
+  const initialState = { message: null, errors: {} };
+  const [errorMessage, dispatch] = useFormState(updateDebtWithId, initialState);
 
   // REACT STATE //
   const [editing, setEditing] = useState(false);
@@ -35,20 +35,22 @@ export default function DebtCard({
   // FORMATED DATE //
   const formatedDate = dayjs(date.toString()).format("DD/MM/YYYY");
 
-  // HANDLER //
-  // !! I could improve this behavior by handling it with skeletons later !! //
-  const handleSubmit = () => {
-    if (!errorMessage.errors && !errorMessage.message) {
-        // If there isn't any errMessage we can close the form
-        setEditing(false);
-        // It will rerender the component and display content 'cause editing will be false
-    }
-  }
+  // We want to close the form with a useEffect
+  // Once the form is sent, we want to check whether there are messages or errors
+  // If not, we can close the form by setting its state to false
+  useEffect(() => {
+    if (errorMessage?.message || errorMessage?.errors) return;
+
+    setEditing(false);
+  }, [errorMessage]);
 
   return (
     <article className="w-full bg-orange-400 my-2 rounded-md p-6 flex flex-wrap justify-between text-black">
       {editing ? (
-        <form action={dispatch} className="flex gap-2 items-center justify-between grow mr-4" onSubmit={handleSubmit}>
+        <form
+          action={dispatch}
+          className="flex gap-2 items-center justify-between grow mr-4"
+        >
           <Input
             isRequired
             name="name"
