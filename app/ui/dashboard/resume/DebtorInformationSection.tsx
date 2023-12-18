@@ -1,22 +1,33 @@
 "use client";
 
-import { useState, useId } from "react";
+import { useEffect, useState } from "react";
 import { PencilSquareIcon } from "@heroicons/react/24/solid";
 import dayjs from "dayjs";
 import formatPhoneNumber from "@/utils/formatPhoneNumber";
 import { Debtor, Status } from "@/app/lib/definitions";
 import Input from "../../input";
 import Button from "../../button";
+import { updateDebtor } from "@/app/lib/actions/debtor";
+import { useFormState } from "react-dom";
 
 export default function DebtorInformationSection({
+  debtorId,
   lastname,
   firstname,
   email,
   phone,
   name: statusName,
   date,
-}: Debtor & Status) {
-  const inputId = useId();
+}: Debtor & Status & { debtorId: string }) {
+  // BIND TO ALLOW UPDATE DEBTOR ACTION //
+  const updateDebtorWithId = updateDebtor.bind(null, debtorId);
+
+  // FORM STATE TO SEND IT //
+  const initialState = { message: null, errors: {} };
+  const [errorMessage, dispatch] = useFormState(
+    updateDebtorWithId,
+    initialState
+  );
 
   // REACT STATES //
   const [editing, setEditing] = useState<boolean>(false);
@@ -30,6 +41,15 @@ export default function DebtorInformationSection({
   // FORMAT DATES //
   const dateFormat = "DD/MM/YYYY";
   const formatedDate = dayjs(date.toString()).format(dateFormat);
+
+  // We want to close the form with a useEffect
+  // Once the form is sent, we want to check whether there are messages or errors
+  // If not, we can close the form by setting its state to false
+  useEffect(() => {
+    if (errorMessage?.message || errorMessage?.errors) return;
+
+    setEditing(false);
+  }, [errorMessage]);
 
   return (
     <section className="w-full bg-slate-100 rounded-md text-black p-4 max-w-[600px] mx-auto mb-4">
@@ -45,7 +65,7 @@ export default function DebtorInformationSection({
       </div>
 
       {editing ? (
-        <form>
+        <form action={dispatch}>
           <Input
             label="* Nom"
             isRequired
@@ -53,6 +73,7 @@ export default function DebtorInformationSection({
             type="text"
             value={editLastname}
             onChange={setEditLastname}
+            errMessage={errorMessage?.errors?.lastname}
           />
 
           <Input
@@ -62,27 +83,30 @@ export default function DebtorInformationSection({
             type="text"
             value={editFirstname}
             onChange={setEditFirstname}
+            errMessage={errorMessage?.errors?.firstname}
           />
 
           <Input
             label="Email"
-            isRequired
             name="email"
             type="email"
             value={editEmail}
             onChange={setEditEmail}
+            errMessage={errorMessage?.errors?.email}
           />
 
           <Input
             label="Téléphone"
-            isRequired
             name="phone"
             type="number"
             value={editPhone}
             onChange={setEditPhone}
+            errMessage={errorMessage?.errors?.phone}
           />
 
-          <Button type="submit" className="mx-auto block mt-2">Valider</Button>
+          <Button type="submit" className="mx-auto block mt-2">
+            Valider
+          </Button>
         </form>
       ) : (
         <>

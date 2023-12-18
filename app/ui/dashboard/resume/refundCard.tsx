@@ -22,7 +22,7 @@ export default function RefundCard({
   const updateRefundWithId = updateRefund.bind(null, id, debtorId);
 
   // FORM STATE TO SEND IT //
-  const initialState = { message: null, error: {} };
+  const initialState = { message: null, errors: {} };
   const [errorMessage, dispatch] = useFormState(
     updateRefundWithId,
     initialState

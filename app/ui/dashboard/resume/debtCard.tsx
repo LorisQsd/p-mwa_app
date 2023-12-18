@@ -18,11 +18,11 @@ export default function DebtCard({
 }: Debt) {
   // BIND TO ALLOW DELETE DEBT ACTION //
   const deleteDebtWithId = deleteDebt.bind(null, id, debtorId);
-  // BIND TO ALLOW UPATE DEBT ACTION //
+  // BIND TO ALLOW UPDATE DEBT ACTION //
   const updateDebtWithId = updateDebt.bind(null, id, debtorId)
 
   // FORM STATE TO SEND IT //
-  const initialState = {message: null, error: {}};
+  const initialState = {message: null, errors: {}};
   const [errorMessage, dispatch] = useFormState(updateDebtWithId, initialState)
 
   // REACT STATE //

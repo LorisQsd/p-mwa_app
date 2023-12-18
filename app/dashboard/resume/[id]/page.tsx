@@ -11,7 +11,7 @@ import RefundButton from "@/app/ui/dashboard/resume/refundButton";
 import RefundCard from "@/app/ui/dashboard/resume/refundCard";
 import ReminderButton from "@/app/ui/dashboard/resume/reminderButton";
 import clsx from "clsx";
-  import DebtorInformationSection from "@/app/ui/dashboard/resume/debtorInformationSection";
+import DebtorInformationSection from "@/app/ui/dashboard/resume/debtorInformationSection";
 
 export default async function Page({ params }: { params: { id: string } }) {
   const debtorId = params.id;
@@ -36,15 +36,12 @@ export default async function Page({ params }: { params: { id: string } }) {
     lastReminder?.date &&
     dayjs(lastReminder.date.toString()).format(dateFormat);
 
-  // Better naming :
-  const statusName = debtor.name;
-
   return (
     <>
       <div className="w-full overflow-y-auto pr-2">
         <div className="md:flex gap-4 items-start">
           {/* DEBTOR INFORMATIONS SECTION */}
-          <DebtorInformationSection {...debtor} />
+          <DebtorInformationSection {...debtor} debtorId = {debtorId} />
 
           {/* REMINDERS SECTION */}
           <section className="w-full bg-slate-100 rounded-md text-black p-4 max-w-[600px] mx-auto">

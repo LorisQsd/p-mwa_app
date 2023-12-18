@@ -97,6 +97,55 @@ export async function createDebtor(prevState: DebtorState, formData: FormData) {
   redirect("/dashboard");
 }
 
+// === UPDATE DEBTOR === //
+// === UPDATE DEBT === //
+export async function updateDebtor(
+  debtorId: string,
+  prevState: DebtorState,
+  formData: FormData
+) {
+  // Validate form fields using Zod
+  const validatedFields = CreateDebtorEntries.safeParse({
+    lastname: formData.get("lastname"),
+    firstname: formData.get("firstname"),
+    email: formData.get("email"),
+    phone: formData.get("phone"),
+  });
+
+  // If form validation fails, return errors early. Otherwise, continue.
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      message:
+        "Certains champs ne sont pas valide. Le débiteur n'a pas pu être modifié.",
+    };
+  }
+
+  // Preprare data for update it into the DB
+  const { lastname, firstname, email, phone } = validatedFields.data;
+
+  // Update into DB
+  try {
+    await sql`
+        UPDATE debtors
+        SET lastname = ${lastname}, firstname = ${firstname}, email = ${email}, phone = ${phone}
+        WHERE id = ${debtorId};
+      `;
+
+    console.log(
+      `Le débiteur ${lastname} ${firstname} a bien été modifié.`
+    );
+  } catch (error) {
+    return {
+      message:
+        "Erreur de base de données: Echec lors de la modification d'un débiteur.",
+    };
+  }
+
+  revalidatePath(`/dashboard/resume/${debtorId}`);
+  redirect(`/dashboard/resume/${debtorId}`);
+}
+
 // === DELETE DEBTOR === //
 export async function deleteDebtor(id: string) {
   try {
