@@ -1,6 +1,7 @@
 export function RemainingCapitalSkeleton() {
   return (
     <div className="mt-4">
+      {/* The tip here is to put a single point to take the font-size and avoid CLS */}
       <div className="w-[100px] bg-gray-300 rounded-sm animate-pulse text-transparent" >.</div>
     </div>
   );
