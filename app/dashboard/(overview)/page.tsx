@@ -5,10 +5,13 @@ import {
 } from "@heroicons/react/24/solid";
 import DebtorButton from "@/app/ui/dashboard/debtorButton";
 import { fetchBestDebtors } from "@/app/lib/datas/utility";
-import BestDebtorCard from "@/app/ui/dashboard/bestDebtorCard";
 import { Suspense } from "react";
 import RemainingCapital from "@/app/ui/dashboard/remainingCapital";
-import { DashboardSkeleton } from "@/app/ui/skeletons/dashboardSkeletons";
+import DebtorLeaderboard from "@/app/ui/dashboard/debtorLeaderboard";
+import {
+  RemainingCapitalSkeleton,
+  DebtorCardsSkeleton,
+} from "@/app/ui/skeletons/dashboardSkeletons";
 
 // This component is in an overview because later, we want to avoid rendering pending issues with skeletons between each components.
 export default async function Dashboard() {
@@ -31,7 +34,7 @@ export default async function Dashboard() {
           TOTAL Capital restant dû
         </h2>
 
-        <Suspense fallback={<DashboardSkeleton />}>
+        <Suspense fallback={<RemainingCapitalSkeleton />}>
           <RemainingCapital />
         </Suspense>
       </section>
@@ -43,13 +46,9 @@ export default async function Dashboard() {
           Classement des débiteurs
         </h2>
 
-        {bestDebtors ? (
-          bestDebtors.map((debtor, index) => (
-            <BestDebtorCard key={debtor.id} {...debtor} index={index} />
-          ))
-        ) : (
-          <p className="italic">Pas encore de débiteur à classer.</p>
-        )}
+        <Suspense fallback={<DebtorCardsSkeleton />}>
+          <DebtorLeaderboard />
+        </Suspense>
       </section>
 
       <section className="w-full min-h-[250px] bg-slate-50 rounded-md p-4 mb-2 sm:mb-0 md:col-span-12 hidden md:block">
