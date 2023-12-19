@@ -1,9 +1,14 @@
-import { ChartPieIcon, ChartBarIcon } from "@heroicons/react/24/solid";
+import {
+  ChartPieIcon,
+  ChartBarIcon,
+  CurrencyEuroIcon,
+} from "@heroicons/react/24/solid";
 import DebtorButton from "@/app/ui/dashboard/debtorButton";
 import { fetchBestDebtors } from "@/app/lib/datas/utility";
 import BestDebtorCard from "@/app/ui/dashboard/bestDebtorCard";
 import { Suspense } from "react";
 import RemainingCapital from "@/app/ui/dashboard/remainingCapital";
+import { DashboardSkeleton } from "@/app/ui/skeletons/dashboardSkeletons";
 
 // This component is in an overview because later, we want to avoid rendering pending issues with skeletons between each components.
 export default async function Dashboard() {
@@ -20,7 +25,16 @@ export default async function Dashboard() {
         <p className="italic">Feature à venir...</p>
       </section>
 
-      <RemainingCapital />
+      <section className="w-full min-h-[100px] bg-slate-50 rounded-md p-4 sm:mb-0 mb-2 sm:col-span-6 sm:row-span-1">
+        <h2 className="flex gap-2 items-center">
+          <CurrencyEuroIcon className="w-[40px]" />
+          TOTAL Capital restant dû
+        </h2>
+
+        <Suspense fallback={<DashboardSkeleton />}>
+          <RemainingCapital />
+        </Suspense>
+      </section>
 
       {/* DEBTORS LEADER BOARD */}
       <section className="w-full min-h-[250px] bg-slate-50 rounded-md p-4 sm:mb-0 mb-2 sm:col-span-6 sm:row-span-3 overflow-auto">

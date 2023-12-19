@@ -1,6 +1,5 @@
 import { fetchRemainingCapital } from "@/app/lib/datas/utility";
 import clsx from "clsx";
-import { CurrencyEuroIcon } from "@heroicons/react/24/solid";
 
 export default async function RemainingCapital() {
   const remainingCapital = await fetchRemainingCapital();
@@ -11,12 +10,7 @@ export default async function RemainingCapital() {
   const calcTotalBalance = (Number(debts) - Number(refunds)).toFixed(2);
 
   return (
-    <section className="w-full min-h-[100px] bg-slate-50 rounded-md p-4 sm:mb-0 mb-2 sm:col-span-6 sm:row-span-1">
-      <h2 className="flex gap-2 items-center">
-        <CurrencyEuroIcon className="w-[40px]" />
-        TOTAL Capital restant dû
-      </h2>
-
+    <>
       {/* UI IMPROVMENTS TO MAKE HERE ! */}
       {Number(calcTotalBalance) ? (
         <p
@@ -33,6 +27,6 @@ export default async function RemainingCapital() {
           Aucune balance à afficher pour le moment...
         </p>
       )}
-    </section>
+    </>
   );
 }
